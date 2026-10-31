@@ -1,0 +1,87 @@
+appId: com.openfatoai.app
+productName: OpenFatoAI
+copyright: Copyright (c) 2026 OpenFatoAI Contributors
+
+directories:
+  buildResources: resources
+
+files:
+  # Include essential app directories
+  - from: src/main
+    to: src/main
+  - from: src/renderer
+    to: src/renderer
+    filter:
+      - "**/*"
+      - "!**/styles/main.css" # Exclude source, include output.css below
+  - from: src/renderer/styles/output.css
+    to: src/renderer/styles/
+  - from: src/services
+    to: src/services
+  - from: src/shared
+    to: src/shared
+  - package.json
+  - node_modules/
+
+# Copy icon to resources/ for runtime access via process.resourcesPath
+extraFiles:
+  - from: resources/icon.png
+    to: resources/icon.png
+extraMetadata:
+  main: src/main/index.js
+
+linux:
+  icon: resources/icons/
+  target:
+    - target: deb
+      arch:
+        - x64
+        - arm64
+  category: Utility
+
+win:
+  icon: resources/icons/256x256.png
+  target:
+    - target: nsis
+      arch:
+        - x64
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+
+mac:
+  icon: resources/icons/512x512.png
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+  category: public.app-category.productivity
+  hardenedRuntime: true
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    NSMicrophoneUsageDescription: "O OpenFatoAI precisa acessar o microfone para transcrever sua fala."
+
+dmg:
+  title: OpenFatoAI
+  backgroundColor: '#1e293b'
+
+# Use asar for better performance, but unpack large modules needed at runtime
+asar: true
+asarUnpack:
+  - node_modules/@xenova/transformers/**/*
+  - node_modules/sql.js/**/*
+  - node_modules/electron-log/**/*
+  - node_modules/screenshot-desktop/**/*
+
+# .deb package configuration
+deb:
+  maintainer: OpenFatoAI Contributors <luicesar@users.noreply.github.com>
+  depends:
+    - tesseract-ocr
+    - tesseract-ocr-por
+    - tesseract-ocr-eng

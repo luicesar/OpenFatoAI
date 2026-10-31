@@ -1,0 +1,10 @@
+services:
+  kokoro:
+    image: ghcr.io/remsky/kokoro-fastapi-cpu:v0.2.2
+    ports:
+      - "${KOKORO_PORT:-8880}:8880"
+    environment:
+      - KOKORO_API_KEY=${KOKORO_API_KEY:-}
+    restart: unless-stopped
+
+

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simulado - .NET Core e SQL Server</title>
+  <style>
+    body {
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      max-width: 900px;
+      margin: 40px auto;
+      color: #111;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 8px
+    }
+
+    p.lead {
+      color: #444;
+      margin-top: 0
+    }
+
+    .question {
+      border: 1px solid #e5e7eb;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 18px 0
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db
+    }
+
+    .meta {
+      font-size: 13px;
+      color: #6b7280
+    }
+
+    .actions {
+      margin-top: 18px
+    }
+
+    button {
+      background: #111827;
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 6px;
+      cursor: pointer
+    }
+
+    /* ── Dark mode code block (VS Code Dark+) ── */
+    .code-dark-wrapper {
+      margin: 24px 0;
+    }
+    .code-dark-wrapper .code-caption {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #111;
+    }
+    .code-dark-wrapper .code-desc {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .pre-dark {
+      background: #1e1e1e;
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #d4d4d4;
+      counter-reset: line;
+    }
+    .pre-dark .ln {
+      display: inline-block;
+      width: 2em;
+      text-align: right;
+      margin-right: 16px;
+      color: #858585;
+      user-select: none;
+    }
+    .pre-dark .kw  { color: #569cd6; }   /* keyword   */
+    .pre-dark .cn  { color: #4ec9b0; }   /* class-name */
+    .pre-dark .fn  { color: #dcdcaa; }   /* function   */
+    .pre-dark .str { color: #ce9178; }   /* string     */
+    .pre-dark .num { color: #b5cea8; }   /* number     */
+    .pre-dark .op  { color: #d4d4d4; }   /* operator   */
+    .pre-dark .pu  { color: #d4d4d4; }   /* punctuation */
+    .pre-dark .at  { color: #9cdcfe; }   /* attribute  */
+    .pre-dark .id  { color: #9cdcfe; }   /* identifier */
+    .pre-dark .cm  { color: #6a9955; }   /* comment    */
+  </style>
+</head>
+
+<body>
+  <h1>NET Core &amp; SQL Server</h1>
+  <p class="lead">Instruções: responda às perguntas abaixo. Seja conciso e claro — escreva sua resposta no campo abaixo
+    de cada pergunta.</p>
+
+  <div class="question">
+    <div class="meta">Pergunta 1</div>
+    <label>Explique o que é o .NET Core (agora .NET) e descreva, em até 6 linhas ?</label>
+  </div>
+
+  <div class="question">
+    <div class="meta">Pergunta 2</div>
+    <label>Explique brevemente o que é o SQL Server ?</label>
+  </div>
+
+  <div class="pre_csharp">
+    <div>
+      <pre style="white-space:pre;"
+        class="line-numbers pre_csharp"><code class="pre_csharp"><span class="token keyword">class</span> <span class="token class-name">Program</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">diga_mensagem</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span></span> msg<span class="token punctuation">,</span>
+        <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">CallerMemberName</span></span><span class="token punctuation">]</span> <span class="token class-name"><span class="token keyword">string</span></span> memberName <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">,</span>
+        <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">CallerFilePath</span></span><span class="token punctuation">]</span> <span class="token class-name"><span class="token keyword">string</span></span> sourceFilePath <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">,</span>
+        <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">CallerLineNumber</span></span><span class="token punctuation">]</span> <span class="token class-name"><span class="token keyword">int</span></span> sourceLineNumber <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Sua mensagem foi &gt; "</span> <span class="token operator">+</span> msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Trace<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"memberName : "</span> <span class="token operator">+</span> memberName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Trace<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"sourceFilePath : "</span> <span class="token operator">+</span> sourceFilePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Trace<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"sourceLineNumber : "</span> <span class="token operator">+</span> sourceLineNumber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Console<span class="token punctuation">.</span><span class="token function">ReadKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+    <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Diga sua mensagem : "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name"><span class="token keyword">string</span></span> msg <span class="token operator">=</span> Console<span class="token punctuation">.</span><span class="token function">ReadLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">diga_mensagem</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    </div>
+  </div>
+
+  <!-- ── Bloco dark mode para teste de OCR mixed content ── -->
+  <div class="code-dark-wrapper">
+    <p class="code-caption">Listagem 2: Caller Info — tema escuro (Dark Mode)</p>
+    <p class="code-desc">
+      O mesmo exemplo da Listagem 1, agora exibido com tema escuro (VS Code Dark+).
+      Os atributos <strong>CallerMemberName</strong>, <strong>CallerFilePath</strong> e
+      <strong>CallerLineNumber</strong> permitem rastrear a origem da chamada em tempo de execução
+      sem necessidade de reflexão. Este bloco serve para validar a captura OCR de conteúdo
+      mixed-content (página clara com bloco de código escuro embutido).
+    </p>
+    <pre class="pre-dark"><code><span class="ln"> 1</span><span class="kw">class</span> <span class="cn">Program</span>
+<span class="ln"> 2</span><span class="pu">{</span>
+<span class="ln"> 3</span>    <span class="kw">static</span> <span class="kw">void</span> <span class="fn">diga_mensagem</span><span class="pu">(</span><span class="kw">string</span> <span class="id">msg</span><span class="pu">,</span>
+<span class="ln"> 4</span>        <span class="pu">[</span><span class="at">CallerMemberName</span><span class="pu">]</span> <span class="kw">string</span> <span class="id">memberName</span> <span class="op">=</span> <span class="str">""</span><span class="pu">,</span>
+<span class="ln"> 5</span>        <span class="pu">[</span><span class="at">CallerFilePath</span><span class="pu">]</span> <span class="kw">string</span> <span class="id">sourceFilePath</span> <span class="op">=</span> <span class="str">""</span><span class="pu">,</span>
+<span class="ln"> 6</span>        <span class="pu">[</span><span class="at">CallerLineNumber</span><span class="pu">]</span> <span class="kw">int</span> <span class="id">sourceLineNumber</span> <span class="op">=</span> <span class="num">0</span><span class="pu">)</span>
+<span class="ln"> 7</span>    <span class="pu">{</span>
+<span class="ln"> 8</span>        <span class="cn">Console</span><span class="pu">.</span><span class="fn">WriteLine</span><span class="pu">(</span><span class="str">"Sua mensagem foi &gt; "</span> <span class="op">+</span> <span class="id">msg</span><span class="pu">);</span>
+<span class="ln"> 9</span>        <span class="cn">Trace</span><span class="pu">.</span><span class="fn">WriteLine</span><span class="pu">(</span><span class="str">"memberName : "</span> <span class="op">+</span> <span class="id">memberName</span><span class="pu">);</span>
+<span class="ln">10</span>        <span class="cn">Trace</span><span class="pu">.</span><span class="fn">WriteLine</span><span class="pu">(</span><span class="str">"sourceFilePath : "</span> <span class="op">+</span> <span class="id">sourceFilePath</span><span class="pu">);</span>
+<span class="ln">11</span>        <span class="cn">Trace</span><span class="pu">.</span><span class="fn">WriteLine</span><span class="pu">(</span><span class="str">"sourceLineNumber : "</span> <span class="op">+</span> <span class="id">sourceLineNumber</span><span class="pu">);</span>
+<span class="ln">12</span>        <span class="cn">Console</span><span class="pu">.</span><span class="fn">ReadKey</span><span class="pu">();</span>
+<span class="ln">13</span>    <span class="pu">}</span>
+<span class="ln">14</span>    <span class="kw">static</span> <span class="kw">void</span> <span class="fn">Main</span><span class="pu">(</span><span class="kw">string</span><span class="pu">[]</span> <span class="id">args</span><span class="pu">)</span>
+<span class="ln">15</span>    <span class="pu">{</span>
+<span class="ln">16</span>        <span class="cn">Console</span><span class="pu">.</span><span class="fn">WriteLine</span><span class="pu">(</span><span class="str">"Diga sua mensagem : "</span><span class="pu">);</span>
+<span class="ln">17</span>        <span class="kw">string</span> <span class="id">msg</span> <span class="op">=</span> <span class="cn">Console</span><span class="pu">.</span><span class="fn">ReadLine</span><span class="pu">();</span>
+<span class="ln">18</span>        <span class="fn">diga_mensagem</span><span class="pu">(</span><span class="id">msg</span><span class="pu">);</span>
+<span class="ln">19</span>    <span class="pu">}</span>
+<span class="ln">20</span><span class="pu">}</span></code></pre>
+  </div>
+
+  <div class="actions">
+    <button onclick="window.print()">Imprimir / Salvar como PDF</button>
+  </div>
+
+  <footer style="margin-top:28px;color:#6b7280;font-size:13px">Arquivo de exemplo gerado para testes — abra no Electron
+    ou no navegador para preencher.</footer>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+.env
+node_modules/
+dist/
+*.asar
+src/output.css
+src/renderer/styles/output.css
+src/models/
+
+src/python/venv/
+STRIPE-LOCAL.txt
+DEPLOY-APP-CONTAINER-STRIPE.txt
+
+# Backend .NET Core
+backend/.env
+backend/**/appsettings.Development.json
+backend/**/bin/
+backend/**/obj/
+backend/**/*.user
+docker/data/
+__pycache__/
+
+# Release server settings (local only)
+scripts/release.env

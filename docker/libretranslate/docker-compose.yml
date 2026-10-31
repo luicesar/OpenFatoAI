@@ -1,0 +1,15 @@
+services:
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    ports:
+      - "5001:5000"
+    environment:
+      - LT_LOAD_ONLY=pt,en
+      - LT_UPDATE_MODELS=true
+    user: "0"
+    volumes:
+      - lt-data:/home/libretranslate/.local/share
+    restart: unless-stopped
+
+volumes:
+  lt-data:
