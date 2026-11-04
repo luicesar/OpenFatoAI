@@ -1833,7 +1833,8 @@ function _clearTranscriptions() {
   if (transcriptAiPanel)      transcriptAiPanel.textContent = '';
   if (transcriptAiCopyBtn)    transcriptAiCopyBtn.disabled = true;
   if (transcriptSaveBtn)      transcriptSaveBtn.disabled = true;
-  _currentSessionHash = null;
+  // Clearing mid-recording keeps the session alive: its hash is still needed to Save
+  if (!_transActive) _currentSessionHash = null;
   _lastSummaryType    = null;
 }
 
