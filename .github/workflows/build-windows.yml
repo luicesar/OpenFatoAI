@@ -33,8 +33,9 @@ jobs:
         shell: pwsh
         run: |
           $env:ELECTRON_RUN_AS_NODE = '1'
-          & "dist/win-unpacked/OpenFatoAI.exe" -e "const p=require('path');const s=require(p.join(p.dirname(process.execPath),'resources','app.asar','node_modules','sherpa-onnx-node'));console.log('sherpa ok:', typeof s.OfflineRecognizer);if(typeof s.OfflineRecognizer!=='function')process.exit(1)"
-          if ($LASTEXITCODE -ne 0) { exit 1 }
+          # Start-Process -Wait: calling a GUI exe with & does not set $LASTEXITCODE
+          $p = Start-Process -FilePath "dist/win-unpacked/OpenFatoAI.exe" -ArgumentList "scripts/ci/sherpa-smoke.js" -NoNewWindow -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "sherpa-onnx smoke test failed (exit $($p.ExitCode))" }
 
       - name: Upload installer artifact
         uses: actions/upload-artifact@v4
