@@ -4,6 +4,18 @@
 
 > Antigo *Fato AI*. Código aberto sob [AGPL-3.0](LICENSE).
 
+<div align="center">
+
+<img src="assets/readme/screenshot.jpg" alt="Tela inicial do OpenFatoAI" width="100%">
+
+<br>
+
+[Site](https://fatosystem.com.br/) · [Roadmap](ROADMAP.md) · [Changelog](CHANGELOG.md)
+
+<a href="https://buymeacoffee.com/fatosystem7"><img src="https://img.shields.io/badge/Me%20pague%20um%20caf%C3%A9-fatosystem7-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy me a coffee" height="40"></a>
+
+</div>
+
 Assistente de desktop discreto construído com **Electron** que captura áudio do microfone e texto da tela via OCR, enviando o conteúdo para modelos de IA (Gemini, OpenAI ou Claude/Anthropic) e retornando respostas em tempo real. Conta também com transcrição automática de fala localmente via **Whisper** (`@xenova/transformers`), rodando 100% no processo principal — sem servidores externos.
 
 O app salva todo o histórico de sessões em um banco de dados SQLite local (`sql.js`/WASM) e exibe os registros na aba **Reuniões**.

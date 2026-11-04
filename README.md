@@ -4,6 +4,18 @@
 
 > Formerly *Fato AI*. Free and open source under the [AGPL-3.0](LICENSE).
 
+<div align="center">
+
+<img src="assets/readme/screenshot.jpg" alt="OpenFatoAI home screen" width="100%">
+
+<br>
+
+[Website](https://fatosystem.com.br/) · [Roadmap](ROADMAP.md) · [Changelog](CHANGELOG.md)
+
+<a href="https://buymeacoffee.com/fatosystem7"><img src="https://img.shields.io/badge/Buy%20me%20a%20coffee-fatosystem7-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy me a coffee" height="40"></a>
+
+</div>
+
 A discreet desktop assistant built with **Electron**. It captures microphone audio and on-screen text (OCR), sends it to the AI model of your choice (Gemini, OpenAI or Anthropic) and shows the answer in real time. It also transcribes speech **locally** with Whisper, and keeps your whole history in a local SQLite database.
 
 Your API keys stay on your machine, encrypted with the operating system's keychain (Electron `safeStorage`).
