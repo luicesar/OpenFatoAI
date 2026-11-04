@@ -2,7 +2,7 @@
 
 All notable changes are documented here. Format based on [Keep a Changelog](https://keepachangelog.com/), versioning follows [SemVer](https://semver.org/).
 
-## [Unreleased]
+## [0.1.2] - 2026-11-04
 
 ### Added
 - Settings → Transcription model: new **Precise** profile using NVIDIA Parakeet TDT v3 (int8, ~650 MB) through `sherpa-onnx-node`. In our Portuguese tests it made about a third fewer word errors than Whisper small and ran several times faster. The model is downloaded on first use.
