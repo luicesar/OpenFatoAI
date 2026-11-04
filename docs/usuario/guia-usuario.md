@@ -1,5 +1,7 @@
 # OpenFatoAI — Guia do Usuário
 
+**Português (BR)** · [English](user-guide.md)
+
 ## O que é o OpenFatoAI?
 
 O OpenFatoAI é um assistente discreto para desktop que fica na bandeja do sistema. Ele captura o que está acontecendo na sua tela ou microfone, envia para a IA e devolve respostas rápidas — tudo sem sair da sua janela atual. Também realiza **transcrição automática de fala** em tempo real, 100% local, sem enviar áudio para servidores externos.
@@ -80,6 +82,7 @@ A janela possui uma **sidebar de navegação** à esquerda e a **área principal
 
 - **Marca** — "OpenFatoAI" no topo da sidebar
 - **Navegação** — botões para cada seção
+- **Me pague um café** — link para apoiar o projeto (abre no navegador)
 - **Tema** — alterna entre modo claro e escuro; salvo automaticamente
 - **Ocultar agora** — botão vermelho para esconder a janela imediatamente
 - **Atalho** — exibe `Ctrl+Shift+F9`
@@ -137,6 +140,7 @@ O **badge colorido** ao lado dos botões de captura indica qual provedor de IA e
 - **Gemini** — azul índigo
 - **OpenAI** — verde esmeralda
 - **Claude** — laranja
+- **OpenCode Go** — azul
 
 ---
 
@@ -147,7 +151,7 @@ Transcrição automática de fala em tempo real, 100% local via Whisper.
 ### Como usar
 
 1. Clique em **Transcrições** na sidebar
-2. Clique em **Iniciar** — na **primeira vez**, o modelo Whisper (~142 MB) será baixado automaticamente; aguarde o progresso
+2. Clique em **Iniciar** — na **primeira vez** que usar um modelo, ele será baixado automaticamente (~77 MB o Rápido, ~249 MB o Equilibrado); aguarde o progresso
 3. O botão passa a mostrar um **timer** (ex: `00:45`) enquanto grava
 4. Fale normalmente — as transcrições aparecem em tempo real no log
 5. Clique em **Parar** — o timer some e aparece o **tempo total gravado** (ex: `Em progresso | Gravado: 01:23`)
@@ -161,7 +165,7 @@ No topo da tela há um **seletor de modelo** (dropdown) e um badge com o nome do
 
 ### Sobre o Whisper
 
-- Modelo: `xenova/whisper-base` (~142 MB) — baixado automaticamente no primeiro uso
+- Modelo: **Equilibrado** (`whisper-small`, ~249 MB, padrão) ou **Rápido** (`whisper-base`, ~77 MB), escolhido em Settings → Modelo de transcrição — baixado automaticamente no primeiro uso
 - Roda **100% no seu computador** — nenhum áudio é enviado para servidores externos
 - Idioma configurável nas Settings (Português Brasileiro e Inglês têm boa acurácia)
 - Chunks de 10 segundos com detecção de silêncio — áudio silencioso é ignorado
@@ -242,6 +246,18 @@ Configure a chave de API e escolha o modelo:
 | `claude-sonnet-4` | **Recomendado** — equilíbrio entre velocidade e qualidade |
 | `claude-opus-4` | Máxima capacidade |
 
+### Modelo de transcrição
+
+Escolha o modelo Whisper usado na página Transcrições. A troca vale na próxima vez que você clicar em **Iniciar**.
+
+| Modelo | Download | Quando usar |
+|---|---|---|
+| **Rápido** (`whisper-base`) | ~77 MB | Computador mais fraco, inglês ou áudio limpo |
+| **Equilibrado** (`whisper-small`) | ~249 MB | **Padrão** — precisão bem melhor, principalmente em português |
+
+### Sobre
+O card **Sobre** tem o link para apoiar o projeto (Buy me a coffee), que abre no navegador padrão. O mesmo link está no rodapé da sidebar.
+
 ### Alternar provedor
 
 Cada provedor tem um **toggle** na página de configurações. Ativar um provedor desativa o anterior. O badge na Home muda para refletir o provedor ativo.
@@ -291,7 +307,7 @@ O botão **Ocultar agora** (vermelho) na sidebar faz o mesmo — útil para esco
 - **IA** — texto e áudio são enviados ao provedor **somente** quando você clica Enviar IA ou para a gravação
 - **Chaves de API** — armazenadas com criptografia nativa do SO (`safeStorage` do Electron)
 - **Janela invisível** — `setContentProtection(true)` impede a janela de aparecer em gravações/streams de tela
-- **Banco de dados** — armazenado localmente em `~/.config/openfatoai/fato-ai.db`; só é espelhado em um servidor se **você** configurar um em Configurações → Sincronização
+- **Banco de dados** — armazenado somente no seu computador, em `~/.config/openfatoai/fato-ai.db`; nada é enviado a servidores do projeto
 
 ---
 
@@ -334,7 +350,7 @@ Acesse Settings, insira a chave do provedor ativo e clique **Salvar configuraç�
 - Certifique-se de que `tesseract-ocr-por` está instalado para textos em português (Linux/macOS) ou que o pacote de idioma português foi selecionado na instalação do Tesseract (Windows)
 
 ### Transcrição Whisper demorada no primeiro uso
-O modelo (~142 MB) é baixado automaticamente uma única vez. Uma barra de progresso é exibida durante o download.
+O modelo escolhido (~77 MB ou ~249 MB) é baixado automaticamente uma única vez. Uma barra de progresso é exibida durante o download.
 
 ### "Not responding" ao parar gravação longa
 Esse problema foi corrigido — o áudio agora é transmitido diretamente via memória compartilhada, sem serialização lenta.

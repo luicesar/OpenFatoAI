@@ -1,10 +1,12 @@
-# OpenFatoAI — documentação
+# OpenFatoAI — documentation
 
-Para regras e arquitetura do dia a dia, veja o [`CLAUDE.md`](../CLAUDE.md) na raiz.
+**English** · [Português (BR)](README.pt-BR.md)
 
-| Pasta | Conteúdo |
+For day-to-day rules and architecture, see [`CLAUDE.md`](../CLAUDE.md) at the repository root.
+
+| Folder | Contents |
 |---|---|
-| [`usuario/`](usuario/guia-usuario.md) | Guia do usuário final. |
-| [`../backend/`](../backend/README.md) | Backend opcional (Postgres): tabelas, funções e endpoints. |
-| [`../docker/`](../docker/README.md) | Docker: Postgres + API, HTTPS opcional (Caddy) e serviços avulsos. |
-| [`padroes/`](padroes/README.md) | Fluxo de feature e convenções por área: especificação, backend (main process), frontend, QA e DevOps. |
+| [`usuario/`](usuario/user-guide.md) | End-user guide ([English](usuario/user-guide.md) · [Português](usuario/guia-usuario.md)). |
+| [`padroes/`](padroes/README.md) | Feature flow and per-area conventions: specification, backend (main process), frontend, QA and DevOps. *(Portuguese only.)* |
+| [`../backend/`](../backend/README.md) | Standalone backend (.NET 8 + PostgreSQL): tables, functions and endpoints. **The desktop app does not use it.** |
+| [`../docker/`](../docker/README.md) | Docker: PostgreSQL + API for that backend, optional HTTPS (Caddy) and standalone services. |
