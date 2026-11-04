@@ -1,43 +1,37 @@
 'use strict';
 
-const { parentPort } = require('worker_threads');
+// Runs as a child process started with ELECTRON_RUN_AS_NODE=1 (see ipc/whisper.js): loading
+// onnxruntime-node models of ~150 MB+ crashes Electron's regular mode with SIGTRAP, but works
+// in Node mode. Messages travel over the fork IPC channel (JSON; audio as base64).
+const parentPort = {
+  postMessage: (m) => process.send(m),
+  on: (event, cb) => process.on(event, cb),
+};
 const path = require('path');
 
 let transcriber = null;
 
 const MODEL_ID = 'Xenova/whisper-base';
 
-// Resolve o diretório dist/ do @xenova/transformers para localizar os arquivos WASM.
-// __dirname → src/main/ (dev) ou .../resources/app.asar/src/main/ (build empacotada).
-// Em build empacotada, @xenova/transformers fica fora do .asar (asarUnpack), então
-// se __dirname estiver dentro de "app.asar", reescrevemos para "app.asar.unpacked".
-function resolveWasmDir() {
-  let base = path.join(__dirname, '..', '..', 'node_modules', '@xenova', 'transformers', 'dist');
+let loadedModelId = null;
 
-  if (base.includes(`.asar${path.sep}`) || base.endsWith('.asar')) {
-    base = base.replace(`${path.sep}app.asar${path.sep}`, `${path.sep}app.asar.unpacked${path.sep}`);
-  }
+async function loadModel(modelId = MODEL_ID) {
+  if (transcriber && loadedModelId === modelId) return;
+  transcriber = null;
 
-  return base + path.sep;
-}
-
-const wasmDir = resolveWasmDir();
-
-async function loadModel() {
-  if (transcriber) return;
-
-  // @xenova/transformers é ESM-only — import() dinâmico funciona em worker_threads
+  // @huggingface/transformers é ESM-only — import() dinâmico funciona em worker_threads
   // (diferente de Web Workers do Electron sob file://, onde falha)
-  const { pipeline, env } = await import('@xenova/transformers');
+  const { pipeline, env } = await import('@huggingface/transformers');
 
-  env.backends.onnx.wasm.wasmPaths = wasmDir;
-  env.backends.onnx.wasm.numThreads = 1; // single-threaded — evita requisitos de SharedArrayBuffer/COEP
+  if (process.env.WHISPER_CACHE_DIR) env.cacheDir = process.env.WHISPER_CACHE_DIR;
   env.allowLocalModels  = true;
   env.allowRemoteModels = true; // baixa o modelo na primeira execução, depois usa cache local
 
   parentPort.postMessage({ type: 'status', status: 'loading' });
 
-  transcriber = await pipeline('automatic-speech-recognition', MODEL_ID, {
+  transcriber = await pipeline('automatic-speech-recognition', modelId, {
+    device: 'cpu',
+    dtype: 'q8', // pesos quantizados (arquivos *_quantized.onnx)
     progress_callback: (p) => {
       if (p.status === 'progress') {
         parentPort.postMessage({
@@ -50,6 +44,7 @@ async function loadModel() {
     },
   });
 
+  loadedModelId = modelId;
   parentPort.postMessage({ type: 'status', status: 'ready' });
 }
 
@@ -58,7 +53,7 @@ parentPort.on('message', async (msg) => {
 
   if (type === 'load') {
     try {
-      await loadModel();
+      await loadModel(msg.modelId || MODEL_ID);
       parentPort.postMessage({ type: 'load-result', id, ok: true });
     } catch (err) {
       parentPort.postMessage({ type: 'load-result', id, ok: false, error: err.message });
@@ -67,7 +62,9 @@ parentPort.on('message', async (msg) => {
   }
 
   if (type === 'transcribe') {
-    const { audioData, language } = msg; // audioData: Float32Array (transferido via structured clone)
+    const { audioB64, language } = msg; // float32 bruto em base64 (canal IPC JSON)
+    const raw = Buffer.from(audioB64, 'base64');
+    const audioData = new Float32Array(raw.buffer, raw.byteOffset, raw.byteLength / 4);
     try {
       if (!transcriber) await loadModel();
 

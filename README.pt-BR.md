@@ -181,7 +181,7 @@ src/
 
 ## Performance
 
-- Whisper roda no **processo principal** (Node.js) via `@xenova/transformers` — evita limitações de ES Modules em Workers com `file://`
+- Whisper roda em um **processo filho** (Electron em modo Node) via `@huggingface/transformers` — evita limitações de ES Modules em Workers com `file://`
 - `Float32Array` passado diretamente via IPC (structured-clone binário) — evita o diálogo "not responding" que ocorria com `Array.from()` serializado como JSON
 - Chunks de 10 segundos com detecção de silêncio por RMS (`< 0.008`)
 - `condition_on_previous_text: false`, `no_speech_threshold: 0.6`, `logprob_threshold: -1.0`

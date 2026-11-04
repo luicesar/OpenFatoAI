@@ -60,7 +60,7 @@ Configurado via `electron-builder.yml` (raiz). Comandos em CLAUDE.md:
 - `npm run dist:dir` — executável desempacotado em `dist/linux-unpacked/`
 - `npm run dist` — AppImage + .deb em `dist/`
 
-Atenção: `sql.js` usa WASM e `@xenova/transformers` é ESM — ambos desempacotados via `asarUnpack` no `electron-builder.yml`.
+Atenção: `sql.js` usa WASM e `@huggingface/transformers` é ESM — ambos desempacotados via `asarUnpack` no `electron-builder.yml`.
 
 ## Pipeline de release completo (Linux + Windows + macOS → VPS)
 

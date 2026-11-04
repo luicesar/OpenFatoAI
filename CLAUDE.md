@@ -54,7 +54,7 @@ Electron app with a strict main/renderer process separation (`contextIsolation: 
 **Main process** (`src/main/`) handles all privileged operations:
 - Window/tray lifecycle (`window.js`, `menu.js`)
 - All IPC handlers registered in `index.js` via modules in `ipc/`
-- Whisper ASR runs **in the main process** (not a Worker) — `@xenova/transformers` can't be dynamically imported in Workers under `file://` in Electron
+- Whisper ASR runs in a **child process** (`ELECTRON_RUN_AS_NODE`, see `ipc/whisper.js`) — models > ~150 MB crash a worker inside Electron's regular mode (SIGTRAP), and `@huggingface/transformers` can't be dynamically imported in Workers under `file://` in Electron
 - OCR via spawned `tesseract` child process (`services/ocr.js`)
 - SQLite via `sql.js` (WASM) — never runs in renderer (`services/database.js`)
 - API keys encrypted via Electron `safeStorage` (stored as `.enc` files in `userData`)
@@ -121,7 +121,7 @@ Configured via `electron-builder.yml` (root level). No configuration in `package
 ### ASAR bundling
 
 Enabled (`asar: true`) with strategic unpacking:
-- `@xenova/transformers` — large ML models need loose access for imports
+- `@huggingface/transformers` — large ML models need loose access for imports
 - `sql.js` — WASM module needs direct filesystem access
 - `electron-log` — requires direct access to config dirs
 

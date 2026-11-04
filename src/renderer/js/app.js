@@ -2251,6 +2251,17 @@ if (transcriptSaveBtn) {
 
 // ── Startup: version label, update banner, window controls ──
 (function () {
+  // ── Transcription model (Settings) ──────────────────────────────
+  const whisperRadios = document.querySelectorAll('input[name="whisperModel"]');
+  window.electronAPI.loadConfig().then(res => {
+    const saved = (res?.config || res || {}).whisperModel;
+    const value = ['fast', 'balanced'].includes(saved) ? saved : 'balanced'; // keep in sync with WHISPER_DEFAULT_PROFILE
+    whisperRadios.forEach(r => { r.checked = r.value === value; });
+  }).catch(() => {});
+  whisperRadios.forEach(r => r.addEventListener('change', () => {
+    if (r.checked) window.electronAPI.saveConfig({ whisperModel: r.value });
+  }));
+
   // ── Support link (sidebar + Settings → About) ───────────────────
   ['supportBtn', 'aboutSupportBtn'].forEach(id => {
     document.getElementById(id)?.addEventListener('click', () => window.electronAPI.openSupportUrl());

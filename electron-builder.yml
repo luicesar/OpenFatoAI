@@ -73,7 +73,9 @@ dmg:
 # Use asar for better performance, but unpack large modules needed at runtime
 asar: true
 asarUnpack:
-  - node_modules/@xenova/transformers/**/*
+  - node_modules/@huggingface/transformers/**/*
+  - node_modules/sharp/**/*
+  - node_modules/@img/**/*
   - node_modules/sql.js/**/*
   - node_modules/electron-log/**/*
   - node_modules/screenshot-desktop/**/*

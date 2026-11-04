@@ -26,6 +26,15 @@ const OPENCODEGO_BASE_URL      = 'https://opencode.ai/inference/go/openai/v1';
 const OPENCODEGO_DEFAULT_MODEL = 'kimi-k3';
 const OPENCODEGO_KEY_PATTERN   = /^\S{16,}$/;
 
+// ── Whisper (local transcription) profiles ───────────────────────
+// Config key `whisperModel` holds one of these keys; models are quantized ONNX from Xenova.
+// whisper-medium is intentionally absent: it needs ~9 GB of RAM and gets OOM-killed on typical PCs.
+const WHISPER_MODELS = Object.freeze({
+  fast:     'Xenova/whisper-base',
+  balanced: 'Xenova/whisper-small',
+});
+const WHISPER_DEFAULT_PROFILE = 'balanced';
+
 // ── Project support link (opened in the default browser) ─────────
 const SUPPORT_URL = 'https://buymeacoffee.com/fatosystem7';
 
@@ -91,6 +100,8 @@ module.exports = {
   APP_VERSION,
   GITHUB_REPO,
   SUPPORT_URL,
+  WHISPER_MODELS,
+  WHISPER_DEFAULT_PROFILE,
   GEMINI_BASE_URL,
   GEMINI_DEFAULT_MODEL,
   GEMINI_KEY_PATTERN,
