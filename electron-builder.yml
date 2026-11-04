@@ -22,12 +22,11 @@ files:
     to: src/shared
   - package.json
   - node_modules/
-  # Slim the package: the app runs Whisper on CPU only, so drop GPU providers,
-  # other platforms' ONNX binaries and sharp variants that never load here.
-  - "!node_modules/**/onnxruntime-node/bin/napi-v*/darwin/**"
-  - "!node_modules/**/onnxruntime-node/bin/napi-v*/win32/**"
-  - "!node_modules/**/libonnxruntime_providers_cuda.so"
-  - "!node_modules/**/libonnxruntime_providers_tensorrt.so"
+  # Slim the package: the app runs Whisper on CPU only, so drop the dev model cache,
+  # GPU providers and sharp variants that never load. Per-platform ONNX binaries are
+  # filtered in linux/win/mac `files` below.
+  - "!node_modules/**/*onnxruntime_providers_cuda*"
+  - "!node_modules/**/*onnxruntime_providers_tensorrt*"
   - "!node_modules/**/.cache/**"
   - "!node_modules/@img/*musl*/**"
   - "!node_modules/@img/sharp-wasm32/**"
@@ -41,6 +40,9 @@ extraMetadata:
 
 linux:
   icon: resources/icons/
+  files:
+    - "!node_modules/**/onnxruntime-node/bin/napi-v*/darwin/**"
+    - "!node_modules/**/onnxruntime-node/bin/napi-v*/win32/**"
   target:
     - target: deb
       arch:
@@ -50,6 +52,10 @@ linux:
 
 win:
   icon: resources/icons/256x256.png
+  files:
+    - "!node_modules/**/onnxruntime-node/bin/napi-v*/darwin/**"
+    - "!node_modules/**/onnxruntime-node/bin/napi-v*/linux/**"
+    - "!node_modules/**/onnxruntime-node/bin/napi-v*/win32/arm64/**"
   target:
     - target: nsis
       arch:
@@ -63,6 +69,9 @@ nsis:
 
 mac:
   icon: resources/icons/512x512.png
+  files:
+    - "!node_modules/**/onnxruntime-node/bin/napi-v*/win32/**"
+    - "!node_modules/**/onnxruntime-node/bin/napi-v*/linux/**"
   target:
     - target: dmg
       arch:
