@@ -12,6 +12,9 @@
       'sidebar.theme.dark':    'Dark',
       'sidebar.theme.light':   'Light',
       'sidebar.hide':          'Hide now',
+      'sidebar.support':       'Buy me a coffee',
+      'settings.about.title':  'About',
+      'settings.about.desc':   'OpenFatoAI is free and open source (AGPL-3.0). If it helps you, you can support its development.',
 
       // Home — banner
       'banner.noApiKey.title':  'API key not configured',
@@ -283,6 +286,9 @@
       'sidebar.theme.dark':    'Escuro',
       'sidebar.theme.light':   'Claro',
       'sidebar.hide':          'Ocultar agora',
+      'sidebar.support':       'Me pague um caf\u00e9',
+      'settings.about.title':  'Sobre',
+      'settings.about.desc':   'O OpenFatoAI \u00e9 gratuito e de c\u00f3digo aberto (AGPL-3.0). Se ele ajuda voc\u00ea, apoie o desenvolvimento.',
 
       // Home — banner
       'banner.noApiKey.title':  'Chave de API n\u00e3o configurada',

@@ -28,6 +28,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   hasOpenAIKey     : ()    => ipcRenderer.invoke('has-openai-key'),
   openOpenAIKeyUrl : ()    => ipcRenderer.invoke('open-openai-key-url'),
 
+  // ── Support link ─────────────────────────────────────────────
+  openSupportUrl : () => ipcRenderer.invoke('open-support-url'),
+
   // ── OpenCode Go Key ──────────────────────────────────────────
   saveOpenCodeGoKey    : (key) => ipcRenderer.invoke('save-opencodego-key', key),
   hasOpenCodeGoKey     : ()    => ipcRenderer.invoke('has-opencodego-key'),

@@ -5,7 +5,7 @@
 const { ipcMain, safeStorage, shell } = require('electron');
 const { createLogger }                = require('../../services/logger');
 const { userDataPath, readJsonSafe, writeJsonSafe, ok, fail } = require('../../shared/utils');
-const { FILES, GEMINI_KEY_PATTERN, OPENAI_KEY_PATTERN, OPENAI_DEFAULT_MODEL, ANTHROPIC_KEY_PATTERN, ANTHROPIC_DEFAULT_MODEL, OPENCODEGO_KEY_PATTERN, OPENCODEGO_DEFAULT_MODEL } = require('../../shared/constants');
+const { FILES, GEMINI_KEY_PATTERN, OPENAI_KEY_PATTERN, OPENAI_DEFAULT_MODEL, ANTHROPIC_KEY_PATTERN, ANTHROPIC_DEFAULT_MODEL, OPENCODEGO_KEY_PATTERN, OPENCODEGO_DEFAULT_MODEL, SUPPORT_URL } = require('../../shared/constants');
 
 const log = createLogger('ipc:config');
 
@@ -215,6 +215,13 @@ function registerConfigHandlers() {
   // Open OpenAI API key page in the default browser
   ipcMain.handle('open-openai-key-url', async () => {
     await shell.openExternal('https://platform.openai.com/api-keys');
+    return ok();
+  });
+
+  // ── Support link ─────────────────────────────────────────────────
+  // Opens the fixed project support page; the URL never comes from the renderer.
+  ipcMain.handle('open-support-url', async () => {
+    await shell.openExternal(SUPPORT_URL);
     return ok();
   });
 

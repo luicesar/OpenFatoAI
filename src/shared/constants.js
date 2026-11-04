@@ -26,6 +26,9 @@ const OPENCODEGO_BASE_URL      = 'https://opencode.ai/inference/go/openai/v1';
 const OPENCODEGO_DEFAULT_MODEL = 'kimi-k3';
 const OPENCODEGO_KEY_PATTERN   = /^\S{16,}$/;
 
+// ── Project support link (opened in the default browser) ─────────
+const SUPPORT_URL = 'https://buymeacoffee.com/fatosystem7';
+
 // ── IPC channel names (single source of truth) ──────────────────
 const IPC = Object.freeze({
   HIDE_WINDOW:            'hide-window',
@@ -87,6 +90,7 @@ module.exports = {
   APP_NAME,
   APP_VERSION,
   GITHUB_REPO,
+  SUPPORT_URL,
   GEMINI_BASE_URL,
   GEMINI_DEFAULT_MODEL,
   GEMINI_KEY_PATTERN,

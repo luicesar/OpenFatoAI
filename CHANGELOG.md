@@ -5,6 +5,7 @@ All notable changes are documented here. Format based on [Keep a Changelog](http
 ## [Unreleased]
 
 ### Added
+- "Buy me a coffee" link in the sidebar footer and in Settings → About (opens the default browser).
 - New AI source: OpenCode Go (Kimi, DeepSeek, GLM) via its OpenAI-compatible endpoint.
 - The app now runs fully local: no account, login, plans or payments. It opens straight into the app and uses your own API keys.
 - Optional backend (.NET 8 + PostgreSQL) with no accounts: stores meetings per anonymous installation (`/api/meetings`).

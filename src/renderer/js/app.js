@@ -2251,6 +2251,11 @@ if (transcriptSaveBtn) {
 
 // ── Startup: version label, update banner, window controls ──
 (function () {
+  // ── Support link (sidebar + Settings → About) ───────────────────
+  ['supportBtn', 'aboutSupportBtn'].forEach(id => {
+    document.getElementById(id)?.addEventListener('click', () => window.electronAPI.openSupportUrl());
+  });
+
   // ── Versão do app ────────────────────────────────────────────────
   window.electronAPI.getAppVersion().then(v => {
     const el = document.getElementById('appVersionLabel');
