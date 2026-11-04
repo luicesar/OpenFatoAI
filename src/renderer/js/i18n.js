@@ -72,9 +72,9 @@
       // Gemini AI page
       'gemini.subtitle':       'Customize the AI model',
       'gemini.model.title':    'Gemini Model',
-      'gemini.model.opt1':     'gemini-3.5-flash \u2014 Recommended',
-      'gemini.model.opt2':     'gemini-3.1-flash-lite \u2014 Fastest',
-      'gemini.model.opt3':     'gemini-3.1-pro-preview \u2014 Most accurate',
+      'gemini.model.opt1':     'gemini-3.6-flash \u2014 Recommended',
+      'gemini.model.opt2':     'gemini-3.5-flash-lite \u2014 Fastest',
+      'gemini.model.opt3':     'gemini-3.8-flash \u2014 Most accurate',
 
       // OpenAI page
       'openai.subtitle':          'Configure the OpenAI integration',
@@ -332,9 +332,9 @@
       // Gemini AI page
       'gemini.subtitle':       'Personalize o modelo de IA',
       'gemini.model.title':    'Modelo Gemini',
-      'gemini.model.opt1':     'gemini-3.5-flash \u2014 Recomendado',
-      'gemini.model.opt2':     'gemini-3.1-flash-lite \u2014 Mais r\u00e1pido',
-      'gemini.model.opt3':     'gemini-3.1-pro-preview \u2014 Mais preciso',
+      'gemini.model.opt1':     'gemini-3.6-flash \u2014 Recomendado',
+      'gemini.model.opt2':     'gemini-3.5-flash-lite \u2014 Mais r\u00e1pido',
+      'gemini.model.opt3':     'gemini-3.8-flash \u2014 Mais preciso',
 
       // OpenAI page
       'openai.subtitle':          'Configure a integra\u00e7\u00e3o com OpenAI',

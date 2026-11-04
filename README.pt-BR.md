@@ -38,7 +38,7 @@ O app salva todo o histórico de sessões em um banco de dados SQLite local (`sq
 ### Provedores de IA (multi-provider)
 | Provedor | Modelos disponíveis |
 |---|---|
-| **Gemini** (padrão) | gemini-2.5-flash-lite, gemini-2.5-flash, gemini-2.5-pro |
+| **Gemini** (padrão) | gemini-3.5-flash-lite, gemini-3.6-flash, gemini-3.8-flash |
 | **OpenAI** | gpt-4o-mini, gpt-4o, gpt-4.1-mini, gpt-4.1 |
 | **Anthropic / Claude** | claude-haiku-4, claude-sonnet-4, claude-opus-4 |
 
@@ -80,7 +80,7 @@ Crie um arquivo `.env` na raiz do projeto (opcional — as chaves também podem 
 
 ```
 GEMINI_API_KEY=sua_chave_aqui
-GEMINI_MODEL=gemini-2.5-flash
+GEMINI_MODEL=gemini-3.6-flash
 GEMINI_API_URL=https://generativelanguage.googleapis.com/v1beta/models
 DEFAULT_PROMPT="Responda em português. Seja direto e breve."
 ```

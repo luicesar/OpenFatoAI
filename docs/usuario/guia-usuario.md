@@ -52,7 +52,7 @@ As chaves de API podem ser configuradas pela interface do app (Settings). O `.en
 
 ```
 GEMINI_API_KEY=sua_chave_aqui
-GEMINI_MODEL=gemini-2.5-flash
+GEMINI_MODEL=gemini-3.6-flash
 GEMINI_API_URL=https://generativelanguage.googleapis.com/v1beta/models
 DEFAULT_PROMPT="Responda em português. Seja direto e breve."
 ```
@@ -212,9 +212,9 @@ Configure a chave de API e escolha o modelo:
 
 | Modelo | Quando usar |
 |---|---|
-| `gemini-2.5-flash-lite` | Máxima velocidade, tarefas simples |
-| `gemini-2.5-flash` | **Recomendado** — rápido e preciso |
-| `gemini-2.5-pro` | Questões complexas que exigem mais raciocínio |
+| `gemini-3.5-flash-lite` | Máxima velocidade, tarefas simples |
+| `gemini-3.6-flash` | **Recomendado** — rápido e preciso |
+| `gemini-3.8-flash` | Questões complexas que exigem mais raciocínio |
 
 ### Provedor OpenAI (GPT)
 
@@ -319,7 +319,7 @@ sudo apt install scrot
 ```
 
 ### Erro 404 da API Gemini
-O modelo selecionado pode não estar disponível para sua chave. Troque para `gemini-2.5-flash` nas Settings.
+O modelo selecionado pode não estar disponível para sua chave. Troque para `gemini-3.6-flash` nas Settings.
 
 ### Banner "Configure sua chave de API"
 Acesse Settings, insira a chave do provedor ativo e clique **Salvar configurações**.

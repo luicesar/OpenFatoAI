@@ -7,7 +7,7 @@ const GITHUB_REPO = 'luicesar/OpenFatoAI';
 
 // ── Gemini defaults ─────────────────────────────────────────────
 const GEMINI_BASE_URL      = 'https://generativelanguage.googleapis.com/v1beta/models';
-const GEMINI_DEFAULT_MODEL = 'gemini-3.5-flash';
+const GEMINI_DEFAULT_MODEL = 'gemini-3.6-flash';
 const GEMINI_KEY_PATTERN   = /^(?:AIza[0-9A-Za-z_\-]{35}|AQ\.[0-9A-Za-z_\-]{30,})$/;
 
 // ── OpenAI defaults ──────────────────────────────────────────────

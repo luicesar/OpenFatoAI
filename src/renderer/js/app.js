@@ -742,15 +742,15 @@ const _MODEL_LABELS = {
   'gpt-4.1-mini':              'GPT-4.1 Mini',
   'o1':                        'o1 (Raciocínio)',
   'o3-mini':                   'o3-mini (Raciocínio Rápido)',
-  'gemini-3.5-flash':          'Gemini 3.5 Flash (Recomendado)',
-  'gemini-3.1-flash-lite':     'Gemini 3.1 Flash Lite (Rápido)',
-  'gemini-3.1-pro-preview':    'Gemini 3.1 Pro (Preview)',
+  'gemini-3.6-flash':          'Gemini 3.6 Flash (Recomendado)',
+  'gemini-3.5-flash-lite':     'Gemini 3.5 Flash Lite (Rápido)',
+  'gemini-3.8-flash':          'Gemini 3.8 Flash (Mais Preciso)',
 };
 
 const _AI_DEFAULTS = {
   anthropic: ['claude-opus-4-8', 'claude-opus-4-7', 'claude-sonnet-4-6', 'claude-haiku-4-5-20251001'],
   openai:    ['gpt-4o', 'gpt-4o-mini', 'o1', 'o3-mini', 'gpt-4.1', 'gpt-4.1-mini'],
-  gemini:    ['gemini-3.5-flash', 'gemini-3.1-flash-lite', 'gemini-3.1-pro-preview'],
+  gemini:    ['gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3.8-flash'],
 };
 
 let _aiModels = {
@@ -1083,7 +1083,7 @@ if (promptTemplateInput) {
     // Restore Gemini page select independently (never corrupted by OpenAI models)
     if (modelSelect) {
       const savedGeminiModel = (_aiModels.gemini.some(m => m.value === cfg.sourceAIModel) ? cfg.sourceAIModel : null)
-        || (_aiModels.gemini[0]?.value || 'gemini-3.5-flash');
+        || (_aiModels.gemini[0]?.value || 'gemini-3.6-flash');
       modelSelect.value = savedGeminiModel;
       if (!modelSelect.value) modelSelect.selectedIndex = 0;
     }
