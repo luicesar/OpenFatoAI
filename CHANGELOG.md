@@ -2,7 +2,10 @@
 
 All notable changes are documented here. Format based on [Keep a Changelog](https://keepachangelog.com/), versioning follows [SemVer](https://semver.org/).
 
-## [Unreleased]
+## [0.1.1] - 2026-11-04
+
+### Fixed
+- Transcriptions: clicking Clear during a recording no longer leaves Save disabled after generating the summary.
 
 ### Added
 - Settings → Transcription model: choose between Fast (whisper-base, ~77 MB) and Balanced (whisper-small, ~249 MB, better accuracy). Balanced is the default; models are cached in the user data folder.
