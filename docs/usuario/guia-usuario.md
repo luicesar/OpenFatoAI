@@ -165,7 +165,7 @@ No topo da tela há um **seletor de modelo** (dropdown) e um badge com o nome do
 
 ### Sobre o Whisper
 
-- Modelo: **Equilibrado** (`whisper-small`, ~249 MB, padrão) ou **Rápido** (`whisper-base`, ~77 MB), escolhido em Settings → Modelo de transcrição — baixado automaticamente no primeiro uso
+- Modelo: **Equilibrado** (`whisper-small`, ~249 MB, padrão), **Rápido** (`whisper-base`, ~77 MB) ou **Preciso** (NVIDIA Parakeet V3, ~650 MB), escolhido em Settings → Modelo de transcrição — baixado automaticamente no primeiro uso
 - Roda **100% no seu computador** — nenhum áudio é enviado para servidores externos
 - Idioma configurável nas Settings (Português Brasileiro e Inglês têm boa acurácia)
 - Chunks de 10 segundos com detecção de silêncio — áudio silencioso é ignorado
@@ -254,6 +254,7 @@ Escolha o modelo Whisper usado na página Transcrições. A troca vale na próxi
 |---|---|---|
 | **Rápido** (`whisper-base`) | ~77 MB | Computador mais fraco, inglês ou áudio limpo |
 | **Equilibrado** (`whisper-small`) | ~249 MB | **Padrão** — precisão bem melhor, principalmente em português |
+| **Preciso** (Parakeet V3) | ~650 MB | O mais preciso e o mais rápido nos nossos testes em português; maior download |
 
 ### Sobre
 O card **Sobre** tem o link para apoiar o projeto (Buy me a coffee), que abre no navegador padrão. O mesmo link está no rodapé da sidebar.

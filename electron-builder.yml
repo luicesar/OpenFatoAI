@@ -94,6 +94,8 @@ asarUnpack:
   - node_modules/@huggingface/transformers/**/*
   - node_modules/sharp/**/*
   - node_modules/@img/**/*
+  - node_modules/sherpa-onnx-node/**/*
+  - node_modules/sherpa-onnx-*/**/*
   - node_modules/sql.js/**/*
   - node_modules/electron-log/**/*
   - node_modules/screenshot-desktop/**/*

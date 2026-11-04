@@ -152,7 +152,7 @@ At the top there is a **model selector** (dropdown) and a badge with the active 
 
 ### About Whisper
 
-- Model: **Balanced** (`whisper-small`, ~249 MB, default) or **Fast** (`whisper-base`, ~77 MB), chosen in Settings → Transcription model — downloaded automatically on first use
+- Model: **Balanced** (`whisper-small`, ~249 MB, default), **Fast** (`whisper-base`, ~77 MB) or **Precise** (NVIDIA Parakeet V3, ~650 MB), chosen in Settings → Transcription model — downloaded automatically on first use
 - Runs **100% on your computer** — no audio is sent to external servers
 - Language is set in Settings (Brazilian Portuguese and English have good accuracy)
 - 10-second chunks with silence detection — silent audio is ignored
@@ -241,6 +241,7 @@ Choose the Whisper model used on the Transcriptions page. The change applies the
 |---|---|---|
 | **Fast** (`whisper-base`) | ~77 MB | Slower computer, English or clean audio |
 | **Balanced** (`whisper-small`) | ~249 MB | **Default** — much better accuracy, especially in Portuguese |
+| **Precise** (Parakeet V3) | ~650 MB | Most accurate and fastest in our Portuguese tests; biggest download |
 
 ### About
 

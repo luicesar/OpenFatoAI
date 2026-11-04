@@ -19,7 +19,9 @@
       'settings.whisper.fast.desc': 'Lightest. Good for English and clean audio.',
       'settings.whisper.balanced': 'Balanced',
       'settings.whisper.balanced.desc': 'Much better accuracy, especially in Portuguese.',
-      'settings.whisper.note':     'A model is downloaded the first time you use it. The Balanced model is larger, so the first download takes longer.',
+      'settings.whisper.precise':  'Precise',
+      'settings.whisper.precise.desc': 'NVIDIA Parakeet V3: the most accurate and the fastest, but the biggest download. Best for Portuguese.',
+      'settings.whisper.note':     'A model is downloaded the first time you use it. Larger models take longer to download the first time.',
       'settings.about.title':  'About',
       'settings.about.desc':   'OpenFatoAI is free and open source (AGPL-3.0). If it helps you, you can support its development.',
 
@@ -300,7 +302,9 @@
       'settings.whisper.fast.desc': 'O mais leve. Bom para ingl\u00eas e \u00e1udio limpo.',
       'settings.whisper.balanced': 'Equilibrado',
       'settings.whisper.balanced.desc': 'Precis\u00e3o bem melhor, principalmente em portugu\u00eas.',
-      'settings.whisper.note':     'O modelo \u00e9 baixado na primeira vez que voc\u00ea o usar. O modelo Equilibrado \u00e9 maior, ent\u00e3o o primeiro download demora mais.',
+      'settings.whisper.precise':  'Preciso',
+      'settings.whisper.precise.desc': 'NVIDIA Parakeet V3: o mais preciso e o mais r\u00e1pido, mas o maior download. Melhor para portugu\u00eas.',
+      'settings.whisper.note':     'O modelo \u00e9 baixado na primeira vez que voc\u00ea o usar. Modelos maiores demoram mais para baixar na primeira vez.',
       'settings.about.title':  'Sobre',
       'settings.about.desc':   'O OpenFatoAI \u00e9 gratuito e de c\u00f3digo aberto (AGPL-3.0). Se ele ajuda voc\u00ea, apoie o desenvolvimento.',
 

@@ -2256,7 +2256,7 @@ if (transcriptSaveBtn) {
   const whisperRadios = document.querySelectorAll('input[name="whisperModel"]');
   window.electronAPI.loadConfig().then(res => {
     const saved = (res?.config || res || {}).whisperModel;
-    const value = ['fast', 'balanced'].includes(saved) ? saved : 'balanced'; // keep in sync with WHISPER_DEFAULT_PROFILE
+    const value = ['fast', 'balanced', 'precise'].includes(saved) ? saved : 'balanced'; // keep in sync with WHISPER_DEFAULT_PROFILE
     whisperRadios.forEach(r => { r.checked = r.value === value; });
   }).catch(() => {});
   whisperRadios.forEach(r => r.addEventListener('change', () => {

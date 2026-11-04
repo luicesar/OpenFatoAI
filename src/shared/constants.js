@@ -29,9 +29,12 @@ const OPENCODEGO_KEY_PATTERN   = /^\S{16,}$/;
 // ── Whisper (local transcription) profiles ───────────────────────
 // Config key `whisperModel` holds one of these keys; models are quantized ONNX from Xenova.
 // whisper-medium is intentionally absent: it needs ~9 GB of RAM and gets OOM-killed on typical PCs.
+// `precise` is NVIDIA Parakeet TDT v3 (int8) run through sherpa-onnx, not transformers.js:
+// the worker picks the engine from the id prefix.
 const WHISPER_MODELS = Object.freeze({
   fast:     'Xenova/whisper-base',
   balanced: 'Xenova/whisper-small',
+  precise:  'parakeet-tdt-0.6b-v3-int8',
 });
 const WHISPER_DEFAULT_PROFILE = 'balanced';
 
