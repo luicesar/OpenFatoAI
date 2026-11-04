@@ -29,6 +29,10 @@ jobs:
       - name: Build macOS installer
         run: npx electron-builder --mac --x64 --arm64 --publish never
 
+      - name: Smoke test the Parakeet native runtime (Apple Silicon build)
+        run: |
+          ELECTRON_RUN_AS_NODE=1 dist/mac-arm64/OpenFatoAI.app/Contents/MacOS/OpenFatoAI -e "const p=require('path');const s=require(p.join(p.dirname(process.execPath),'..','Resources','app.asar','node_modules','sherpa-onnx-node'));console.log('sherpa ok:', typeof s.OfflineRecognizer);if(typeof s.OfflineRecognizer!=='function')process.exit(1)"
+
       - name: Upload installer artifact
         uses: actions/upload-artifact@v4
         with:

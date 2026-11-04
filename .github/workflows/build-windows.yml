@@ -29,6 +29,13 @@ jobs:
       - name: Build Windows installer
         run: npx electron-builder --win --x64 --publish never
 
+      - name: Smoke test the Parakeet native runtime
+        shell: pwsh
+        run: |
+          $env:ELECTRON_RUN_AS_NODE = '1'
+          & "dist/win-unpacked/OpenFatoAI.exe" -e "const p=require('path');const s=require(p.join(p.dirname(process.execPath),'resources','app.asar','node_modules','sherpa-onnx-node'));console.log('sherpa ok:', typeof s.OfflineRecognizer);if(typeof s.OfflineRecognizer!=='function')process.exit(1)"
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+
       - name: Upload installer artifact
         uses: actions/upload-artifact@v4
         with:
