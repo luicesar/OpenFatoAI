@@ -7,7 +7,6 @@ All notable changes are documented here. Format based on [Keep a Changelog](http
 ### Added
 - The app now runs fully local: no account, login, plans or payments. It opens straight into the app and uses your own API keys.
 - Optional backend (.NET 8 + PostgreSQL) with no accounts: stores meetings per anonymous installation (`/api/meetings`).
-- Optional meeting sync: set a server URL in Settings → Sync to mirror saved meetings to your own OpenFatoAI backend (anonymous installation ID, no account).
 - Docker stack (PostgreSQL 16 + API, optional Caddy HTTPS profile) to self-host the optional backend.
 
 ### Removed

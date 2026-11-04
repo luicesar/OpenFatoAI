@@ -85,11 +85,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     return () => ipcRenderer.removeListener('whisper-progress', handler);
   },
 
-  // ── Optional sync (Settings → Sync) ─────────────────────────────
-  syncGetConfig:       ()                            => ipcRenderer.invoke('sync:get-config'),
-  syncSetConfig:       (serverUrl)                   => ipcRenderer.invoke('sync:set-config', { serverUrl }),
-  syncTest:            (serverUrl)                   => ipcRenderer.invoke('sync:test', { serverUrl }),
-  syncPushAll:         ()                            => ipcRenderer.invoke('sync:push-all'),
 
   // ── Update notification ──────────────────────────────────────
   updateCheck: () => ipcRenderer.invoke('update:check'),

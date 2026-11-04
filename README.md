@@ -43,10 +43,6 @@ On Windows install Tesseract from the [UB Mannheim build](https://github.com/UB-
 
 More detail: [`docs/`](docs/README.md).
 
-## Optional self-hosted sync
-
-Everything works locally with no account and no server. If you want your saved meetings mirrored to a PostgreSQL database you control, run the backend from [`docker/`](docker/README.md) (`docker compose up -d --build`) and enter its URL in **Settings → Sync**. Each installation is identified only by an anonymous random ID — there are no accounts. Details: [`backend/README.md`](backend/README.md).
-
 ## Updates
 
 On startup the app checks the public GitHub Releases API for a newer version and shows a banner linking to the release page — no project server involved. To turn it off, add `"checkForUpdates": false` to `config.json` in the app's data folder.

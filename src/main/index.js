@@ -59,7 +59,6 @@ const { registerWhisperHandlers, killWhisperProcess } = require('./ipc/whisper')
 const { registerTranscriptionHandlers }  = require('./ipc/transcriptions');
 const { registerDiarizationHandlers, killDiarizationProcess } = require('./ipc/diarization');
 const { registerWindowHandlers }        = require('./ipc/window');
-const { registerSyncHandlers }          = require('./ipc/sync');
 const { registerUpdateHandlers, checkAndNotifyUpdate } = require('./ipc/update');
 const db                                 = require('../services/database');
 
@@ -152,7 +151,6 @@ app.whenReady().then(async () => {
   registerTranscriptionHandlers();
   registerDiarizationHandlers();
   registerWindowHandlers();
-  registerSyncHandlers();
   registerUpdateHandlers();
   ipcMain.handle('get-app-version', () => app.getVersion());
 

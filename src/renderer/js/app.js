@@ -2113,70 +2113,13 @@ if (transcriptSaveBtn) {
   if (deleteModal) deleteModal.addEventListener('click', e => { if (e.target === deleteModal) closeDeleteModal(); });
 })();
 
-// ── Startup: version label, optional sync card, update banner, window controls ──
+// ── Startup: version label, update banner, window controls ──
 (function () {
   // ── Versão do app ────────────────────────────────────────────────
   window.electronAPI.getAppVersion().then(v => {
     const el = document.getElementById('appVersionLabel');
     if (el) el.textContent = `v${v}`;
   });
-
-  // ── Sync (optional server) ────────────────────────────────────────────────
-
-  const syncUrlInput    = document.getElementById('syncServerUrl');
-  const syncStatusEl    = document.getElementById('syncStatus');
-  const syncIdEl        = document.getElementById('syncInstallationId');
-  const syncButtons     = ['syncSaveBtn', 'syncTestBtn', 'syncPushBtn'].map(id => document.getElementById(id));
-
-  function _syncSetStatus(text, isError = false) {
-    if (!syncStatusEl) return;
-    syncStatusEl.textContent = text || '';
-    syncStatusEl.classList.toggle('text-red-500', isError);
-    syncStatusEl.classList.toggle('text-zinc-500', !isError);
-  }
-
-  function _syncError(code) {
-    const key = `settings.sync.error.${code}`;
-    const msg = window.t(key);
-    return msg === key ? window.t('settings.sync.error.generic') : msg;
-  }
-
-  async function _syncRun(fn) {
-    syncButtons.forEach(b => { if (b) b.disabled = true; });
-    _syncSetStatus(window.t('settings.sync.status.working'));
-    try { await fn(); }
-    finally { syncButtons.forEach(b => { if (b) b.disabled = false; }); }
-  }
-
-  async function _syncLoad() {
-    const res = await window.electronAPI.syncGetConfig().catch(() => null);
-    if (!res?.ok) return;
-    if (syncUrlInput) syncUrlInput.value = res.data.serverUrl;
-    if (syncIdEl)     syncIdEl.textContent = res.data.installationId;
-    _syncSetStatus(res.data.enabled ? '' : window.t('settings.sync.status.off'));
-  }
-
-  document.getElementById('syncSaveBtn')?.addEventListener('click', () => _syncRun(async () => {
-    const res = await window.electronAPI.syncSetConfig(syncUrlInput.value);
-    if (!res?.ok) return _syncSetStatus(_syncError(res?.error), true);
-    syncUrlInput.value = res.data.serverUrl;
-    _syncSetStatus(window.t(res.data.enabled ? 'settings.sync.status.saved' : 'settings.sync.status.off'));
-  }));
-
-  document.getElementById('syncTestBtn')?.addEventListener('click', () => _syncRun(async () => {
-    const res = await window.electronAPI.syncTest(syncUrlInput.value);
-    _syncSetStatus(res?.ok ? window.t('settings.sync.status.ok') : _syncError(res?.error), !res?.ok);
-  }));
-
-  document.getElementById('syncPushBtn')?.addEventListener('click', () => _syncRun(async () => {
-    const res = await window.electronAPI.syncPushAll();
-    if (!res?.ok) return _syncSetStatus(_syncError(res?.error), true);
-    const { pushed, total, failed } = res.data;
-    _syncSetStatus(window.t('settings.sync.status.pushed')
-      .replace('{pushed}', pushed).replace('{total}', total).replace('{failed}', failed), failed > 0);
-  }));
-
-  _syncLoad();
 
   // Listener de notificação de versão disponível
   if (window.electronAPI?.onUpdateAvailable) {

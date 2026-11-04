@@ -211,16 +211,6 @@ function updateTranscription(id, data) {
   }
 }
 
-/** All meetings with full content, oldest first (used by the optional sync). */
-function listAllMeetings() {
-  if (!_db) throw new Error('Database not open');
-  const stmt = _db.prepare('SELECT * FROM meetings ORDER BY id');
-  const rows = [];
-  while (stmt.step()) rows.push(stmt.getAsObject());
-  stmt.free();
-  return rows;
-}
-
 /** Delete a meeting by id. */
 function deleteTranscription(id) {
   if (!_db) throw new Error('Database not open');
@@ -233,4 +223,4 @@ function deleteTranscription(id) {
   }
 }
 
-module.exports = { open, close, isOpen, saveTranscription, listTranscriptions, getTranscription, listAllMeetings, updateTranscription, deleteTranscription };
+module.exports = { open, close, isOpen, saveTranscription, listTranscriptions, getTranscription, updateTranscription, deleteTranscription };

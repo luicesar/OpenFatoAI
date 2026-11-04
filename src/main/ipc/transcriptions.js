@@ -7,12 +7,6 @@
 const { ipcMain } = require('electron');
 const db = require('../../services/database');
 const log = require('electron-log');
-const sync = require('../../services/sync');
-
-// Mirror to the optional sync server in the background; failures never affect the local save.
-function _syncRow(row) {
-  if (row) sync.pushMeeting(row).catch(() => {});
-}
 
 function registerTranscriptionHandlers() {
   // ── Save (INSERT OR REPLACE) ──────────────────────────────────
@@ -21,7 +15,6 @@ function registerTranscriptionHandlers() {
     try {
       const result = db.saveTranscription(data);
       log.info('[transcriptions] saved', result);
-      _syncRow(db.getTranscription(result.id));
       return { ok: true, id: result.id };
     } catch (err) {
       log.error('[transcriptions] save error', err.message);
@@ -59,7 +52,6 @@ function registerTranscriptionHandlers() {
     try {
       db.updateTranscription(id, data);
       log.info('[transcriptions] updated', id);
-      _syncRow(db.getTranscription(id));
       return { ok: true };
     } catch (err) {
       log.error('[transcriptions] update error', err.message);
@@ -70,10 +62,8 @@ function registerTranscriptionHandlers() {
   // ── Delete ────────────────────────────────────────────────────
   ipcMain.handle('delete-transcription', (_event, id) => {
     try {
-      const row = db.getTranscription(id);
       db.deleteTranscription(id);
       log.info('[transcriptions] deleted', id);
-      if (row?.session_hash) sync.deleteMeeting(row.session_hash).catch(() => {});
       return { ok: true };
     } catch (err) {
       log.error('[transcriptions] delete error', err.message);

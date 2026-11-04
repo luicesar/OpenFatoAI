@@ -249,26 +249,6 @@
 
       // Settings — Argos Translate card
 
-      'settings.sync.title': 'Sync (optional)',
-      'settings.sync.desc': 'Mirror your saved meetings to your own OpenFatoAI server. Leave empty to keep everything only on this computer.',
-      'settings.sync.url.label': 'Server URL',
-      'settings.sync.url.placeholder': 'https://my-server.example.com',
-      'settings.sync.save': 'Save',
-      'settings.sync.test': 'Test connection',
-      'settings.sync.push': 'Sync now',
-      'settings.sync.id.label': 'Anonymous installation ID:',
-      'settings.sync.status.saved': 'Saved. New and edited meetings will be mirrored to this server.',
-      'settings.sync.status.off': 'Sync is off. Meetings stay only on this computer.',
-      'settings.sync.status.ok': 'Connection OK.',
-      'settings.sync.status.pushed': 'Synced {pushed} of {total} meetings ({failed} failed).',
-      'settings.sync.status.working': 'Working…',
-      'settings.sync.error.invalid_url': 'Invalid URL. Use http:// or https://.',
-      'settings.sync.error.insecure_url': 'Use https:// (plain http:// is only allowed for localhost or private-network addresses).',
-      'settings.sync.error.unreachable': 'Could not reach the server.',
-      'settings.sync.error.timeout': 'The server took too long to respond.',
-      'settings.sync.error.not_openfatoai': 'That address does not look like an OpenFatoAI server.',
-      'settings.sync.error.sync_disabled': 'Save a server URL first.',
-      'settings.sync.error.generic': 'Request failed.',
 
       // Email — Send summary
 
@@ -531,26 +511,6 @@
 
       // Configurações — card Argos Translate
 
-      'settings.sync.title': 'Sincronização (opcional)',
-      'settings.sync.desc': 'Espelhe as reuniões salvas em um servidor OpenFatoAI seu. Deixe vazio para manter tudo só neste computador.',
-      'settings.sync.url.label': 'URL do servidor',
-      'settings.sync.url.placeholder': 'https://meu-servidor.exemplo.com',
-      'settings.sync.save': 'Salvar',
-      'settings.sync.test': 'Testar conexão',
-      'settings.sync.push': 'Sincronizar agora',
-      'settings.sync.id.label': 'ID anônimo da instalação:',
-      'settings.sync.status.saved': 'Salvo. Reuniões novas e editadas serão espelhadas neste servidor.',
-      'settings.sync.status.off': 'Sincronização desligada. As reuniões ficam só neste computador.',
-      'settings.sync.status.ok': 'Conexão OK.',
-      'settings.sync.status.pushed': '{pushed} de {total} reuniões sincronizadas ({failed} com falha).',
-      'settings.sync.status.working': 'Processando…',
-      'settings.sync.error.invalid_url': 'URL inválida. Use http:// ou https://.',
-      'settings.sync.error.insecure_url': 'Use https:// (http:// simples só é permitido para localhost ou endereços de rede privada).',
-      'settings.sync.error.unreachable': 'Não foi possível alcançar o servidor.',
-      'settings.sync.error.timeout': 'O servidor demorou demais para responder.',
-      'settings.sync.error.not_openfatoai': 'Esse endereço não parece ser um servidor OpenFatoAI.',
-      'settings.sync.error.sync_disabled': 'Salve primeiro a URL de um servidor.',
-      'settings.sync.error.generic': 'A requisição falhou.',
 
       // Email — Envio de resumo
 
