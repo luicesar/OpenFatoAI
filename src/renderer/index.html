@@ -474,6 +474,75 @@
       </div>
 
 
+      <!-- ── Page: OpenCode Go ────────────────────────────────────────── -->
+      <div id="pageOpenCodeGo" class="hidden flex-1 overflow-y-auto">
+        <div class="p-6 max-w-xl">
+          <div class="mb-8">
+            <h1 class="text-xl font-semibold text-zinc-900 dark:text-white">OpenCode Go</h1>
+            <p data-i18n="opencodego.subtitle" class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Configure the OpenCode Go integration</p>
+          </div>
+          <div class="space-y-5">
+            <!-- Model card -->
+            <div class="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm overflow-hidden">
+              <div class="px-5 py-4 border-b border-zinc-100 dark:border-zinc-700">
+                <div class="flex items-center justify-between gap-4">
+                  <div>
+                    <h2 data-i18n="opencodego.model.title" class="text-sm font-semibold text-zinc-900 dark:text-white">OpenCode Go Model</h2>
+                    <p data-i18n="shared.model.desc" class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">AI model used to process captures and audio</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer shrink-0" data-i18n-title="toggle.enable.opencodego" title="Enable OpenCode Go">
+                    <input type="checkbox" id="opencodego-active" class="sr-only peer" disabled>
+                    <div class="w-9 h-5 bg-zinc-200 dark:bg-zinc-600 rounded-full peer peer-checked:bg-emerald-600 dark:peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4 peer-disabled:opacity-40"></div>
+                  </label>
+                </div>
+              </div>
+              <div class="px-5 py-4 flex flex-col gap-3">
+                <!-- API Key row -->
+                <div class="flex gap-2 items-center">
+                  <input id="opencodego-api-key" type="password" autocomplete="off" spellcheck="false"
+                    placeholder="API key"
+                    data-i18n-placeholder="opencodego.key.placeholder"
+                    class="flex-1 min-w-0 px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 text-zinc-800 dark:text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow font-mono" />
+                  <button id="openOpenCodeGoKeyUrl" type="button"
+                    class="shrink-0 inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-700 dark:hover:bg-zinc-600 text-zinc-600 dark:text-zinc-300 text-xs font-medium transition-colors whitespace-nowrap">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    </svg>
+                    <span data-i18n="label.getKey">Get key</span>
+                  </button>
+                </div>
+                <!-- API Key error message -->
+                <p id="opencodegoKeyError" class="hidden text-xs text-red-500 dark:text-red-400"></p>
+                <!-- Model select -->
+                <div class="border-t border-zinc-100 dark:border-zinc-700 pt-3">
+                  <select id="opencodegoModelSelect"
+                    class="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 text-zinc-800 dark:text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow">
+                    <option value="kimi-k3" selected data-i18n="opencodego.model.opt1">kimi-k3 — Recommended</option>
+                    <option value="deepseek-v4.1-flash" data-i18n="opencodego.model.opt2">deepseek-v4.1-flash — Fastest</option>
+                    <option value="glm-5.3-flash" data-i18n="opencodego.model.opt3">glm-5.3-flash — Balanced</option>
+                    <option value="kimi-k3.1-pro" data-i18n="opencodego.model.opt4">kimi-k3.1-pro — Most accurate</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-3">
+              <button id="opencodego-save-config"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white text-sm font-medium transition-colors shadow-sm">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+                <span data-i18n="btn.saveSettings">Save settings</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
       <!-- ── Page: Anthropic AI ──────────────────────────────────── -->
       <div id="pageAnthropicAI" class="hidden flex-1 overflow-y-auto">
         <div class="p-6 max-w-xl">
@@ -1011,6 +1080,14 @@
           <span class="flex-1">Anthropic AI</span>
           <span id="flyoutAnthropicActive" class="hidden w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
         </button>
+        <button data-nav="opencodego"
+          class="nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-left transition-colors text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-zinc-100">
+          <svg class="w-4 h-4 shrink-0 text-sky-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+          </svg>
+          <span class="flex-1">OpenCode Go</span>
+          <span id="flyoutOpencodegoActive" class="hidden w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+        </button>
       </div>
     </div>
 
@@ -1037,6 +1114,7 @@
           'gemini-ai': document.getElementById('pageGeminiAI'),
           openai: document.getElementById('pageOpenAI'),
           anthropicai: document.getElementById('pageAnthropicAI'),
+          opencodego: document.getElementById('pageOpenCodeGo'),
           settings: document.getElementById('pageSettings'),
           transcriptions: document.getElementById('pageTranscriptions'),
           reunions:       document.getElementById('pageReunions'),
@@ -1091,7 +1169,7 @@
           }
           closeFlyout();
           // Highlight AI Sources toggle when a sub-item is active
-          var isAiSub = (target === 'gemini-ai' || target === 'openai' || target === 'anthropicai');
+          var isAiSub = (target === 'gemini-ai' || target === 'openai' || target === 'anthropicai' || target === 'opencodego');
           toggle.classList.toggle('bg-zinc-100', isAiSub);
           toggle.classList.toggle('text-zinc-900', isAiSub);
           toggle.classList.toggle('text-zinc-500', !isAiSub);

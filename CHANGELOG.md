@@ -5,6 +5,7 @@ All notable changes are documented here. Format based on [Keep a Changelog](http
 ## [Unreleased]
 
 ### Added
+- New AI source: OpenCode Go (Kimi, DeepSeek, GLM) via its OpenAI-compatible endpoint.
 - The app now runs fully local: no account, login, plans or payments. It opens straight into the app and uses your own API keys.
 - Optional backend (.NET 8 + PostgreSQL) with no accounts: stores meetings per anonymous installation (`/api/meetings`).
 - Docker stack (PostgreSQL 16 + API, optional Caddy HTTPS profile) to self-host the optional backend.

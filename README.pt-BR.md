@@ -41,6 +41,7 @@ O app salva todo o histórico de sessões em um banco de dados SQLite local (`sq
 | **Gemini** (padrão) | gemini-3.5-flash-lite, gemini-3.6-flash, gemini-3.8-flash |
 | **OpenAI** | gpt-4o-mini, gpt-4o, gpt-4.1-mini, gpt-4.1 |
 | **Anthropic / Claude** | claude-haiku-4, claude-sonnet-4, claude-opus-4 |
+| **OpenCode Go** | kimi-k3, deepseek-v4.1-flash, glm-5.3-flash, kimi-k3.1-pro |
 
 A troca de provedor é feita nas Settings — o provedor ativo aparece em um badge na Home.
 
@@ -67,6 +68,7 @@ A troca de provedor é feita nas Settings — o provedor ativo aparece em um bad
   - Gemini: [Google AI Studio](https://aistudio.google.com/app/apikey)
   - OpenAI: [platform.openai.com](https://platform.openai.com/api-keys)
   - Anthropic: [console.anthropic.com](https://console.anthropic.com/)
+  - OpenCode Go: [opencode.ai](https://opencode.ai/) (plano Go)
 
 ---
 

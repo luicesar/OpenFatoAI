@@ -5,7 +5,7 @@
 const { ipcMain, safeStorage, shell } = require('electron');
 const { createLogger }                = require('../../services/logger');
 const { userDataPath, readJsonSafe, writeJsonSafe, ok, fail } = require('../../shared/utils');
-const { FILES, GEMINI_KEY_PATTERN, OPENAI_KEY_PATTERN, OPENAI_DEFAULT_MODEL, ANTHROPIC_KEY_PATTERN, ANTHROPIC_DEFAULT_MODEL } = require('../../shared/constants');
+const { FILES, GEMINI_KEY_PATTERN, OPENAI_KEY_PATTERN, OPENAI_DEFAULT_MODEL, ANTHROPIC_KEY_PATTERN, ANTHROPIC_DEFAULT_MODEL, OPENCODEGO_KEY_PATTERN, OPENCODEGO_DEFAULT_MODEL } = require('../../shared/constants');
 
 const log = createLogger('ipc:config');
 
@@ -74,6 +74,33 @@ function readOpenAIKey() {
 function resolveOpenAIConfig(cfg) {
   const apiKey = readOpenAIKey() || '';
   const model  = cfg.openaiModel || cfg.sourceAIModel || OPENAI_DEFAULT_MODEL;
+  return { apiKey, model };
+}
+
+/**
+ * Reads the encrypted OpenCode Go key from disk; returns '' on any error.
+ * @returns {string}
+ */
+function readOpenCodeGoKey() {
+  try {
+    const fs = require('fs');
+    const p  = resolveKeyPath(FILES.OPENCODEGO_KEY);
+    if (!fs.existsSync(p)) return '';
+    if (!safeStorage.isEncryptionAvailable()) return '';
+    return safeStorage.decryptString(fs.readFileSync(p)) || '';
+  } catch {
+    return '';
+  }
+}
+
+/**
+ * Builds the OpenCode Go config object from the saved config.
+ * @param {object} cfg
+ * @returns {{ apiKey: string, model: string }}
+ */
+function resolveOpenCodeGoConfig(cfg) {
+  const apiKey = readOpenCodeGoKey() || '';
+  const model  = cfg.opencodegoModel || OPENCODEGO_DEFAULT_MODEL;
   return { apiKey, model };
 }
 
@@ -191,6 +218,41 @@ function registerConfigHandlers() {
     return ok();
   });
 
+  // ── OpenCode Go key handlers ─────────────────────────────────────
+
+  // Save OpenCode Go API key via safeStorage
+  ipcMain.handle('save-opencodego-key', async (_event, key) => {
+    if (!OPENCODEGO_KEY_PATTERN.test(String(key))) {
+      return fail('Invalid key format. The key must have at least 16 characters and no spaces.');
+    }
+    if (!safeStorage.isEncryptionAvailable()) {
+      return fail('safeStorage is unavailable on this system');
+    }
+    try {
+      const fs  = require('fs');
+      const enc = safeStorage.encryptString(String(key));
+      fs.writeFileSync(resolveKeyPath(FILES.OPENCODEGO_KEY), enc);
+      log.info('OpenCode Go key saved via safeStorage');
+      return ok();
+    } catch (e) {
+      log.error('Failed to save OpenCode Go key', { error: e.message });
+      return fail(e);
+    }
+  });
+
+  // Check whether an OpenCode Go API key exists on disk
+  ipcMain.handle('has-opencodego-key', async () => {
+    const fs  = require('fs');
+    const has = fs.existsSync(resolveKeyPath(FILES.OPENCODEGO_KEY));
+    return ok({ has });
+  });
+
+  // Open the OpenCode console (where the Go key is created) in the default browser
+  ipcMain.handle('open-opencodego-key-url', async () => {
+    await shell.openExternal('https://opencode.ai/auth');
+    return ok();
+  });
+
   // ── Anthropic key handlers ───────────────────────────────────────
 
   // Save Anthropic API key via safeStorage
@@ -227,4 +289,4 @@ function registerConfigHandlers() {
   });
 }
 
-module.exports = { registerConfigHandlers, resolveGeminiConfig, readApiKey, resolveOpenAIConfig, readOpenAIKey, resolveAnthropicConfig, readAnthropicKey };
+module.exports = { registerConfigHandlers, resolveGeminiConfig, readApiKey, resolveOpenAIConfig, readOpenAIKey, resolveAnthropicConfig, readAnthropicKey, resolveOpenCodeGoConfig, readOpenCodeGoKey };

@@ -21,6 +21,11 @@ const ANTHROPIC_VERSION       = '2023-06-01';
 const ANTHROPIC_DEFAULT_MODEL = 'claude-sonnet-4-6';
 const ANTHROPIC_KEY_PATTERN   = /^sk-ant-[A-Za-z0-9_\-]{20,}$/;
 
+// ── OpenCode Go defaults ─────────────────────────────────────────
+const OPENCODEGO_BASE_URL      = 'https://opencode.ai/inference/go/openai/v1';
+const OPENCODEGO_DEFAULT_MODEL = 'kimi-k3';
+const OPENCODEGO_KEY_PATTERN   = /^\S{16,}$/;
+
 // ── IPC channel names (single source of truth) ──────────────────
 const IPC = Object.freeze({
   HIDE_WINDOW:            'hide-window',
@@ -54,6 +59,7 @@ const FILES = Object.freeze({
   API_KEY:       'api-key.enc',
   OPENAI_KEY:    'openai-key.enc',
   ANTHROPIC_KEY: 'anthropic-key.enc',
+  OPENCODEGO_KEY: 'opencodego-key.enc',
 });
 
 // ── Global shortcut ─────────────────────────────────────────────
@@ -87,6 +93,9 @@ module.exports = {
   OPENAI_BASE_URL,
   OPENAI_DEFAULT_MODEL,
   OPENAI_KEY_PATTERN,
+  OPENCODEGO_BASE_URL,
+  OPENCODEGO_DEFAULT_MODEL,
+  OPENCODEGO_KEY_PATTERN,
   ANTHROPIC_BASE_URL,
   ANTHROPIC_VERSION,
   ANTHROPIC_DEFAULT_MODEL,

@@ -1,14 +1,15 @@
 'use strict';
 
-// ── IPC: AI send handlers (Gemini + OpenAI + Anthropic) ──────────────────
+// ── IPC: AI send handlers (Gemini + OpenAI + Anthropic + OpenCode Go) ──────────────────
 
 const { ipcMain }             = require('electron');
 const { sendToGemini }        = require('../../services/gemini');
 const { sendToOpenAI, transcribeWithWhisper } = require('../../services/openai');
 const { sendToAnthropic }     = require('../../services/anthropic');
+const { sendToOpenCodeGo }    = require('../../services/opencodego');
 const { createLogger }        = require('../../services/logger');
 const { userDataPath, readJsonSafe, ok, fail } = require('../../shared/utils');
-const { resolveGeminiConfig, resolveOpenAIConfig, resolveAnthropicConfig } = require('./config');
+const { resolveGeminiConfig, resolveOpenAIConfig, resolveAnthropicConfig, resolveOpenCodeGoConfig } = require('./config');
 const { FILES }               = require('../../shared/constants');
 
 const log = createLogger('ipc:ai');
@@ -38,6 +39,34 @@ function _requireAnthropicKey(cfg) {
   return { apiKey, model };
 }
 
+function _requireOpenCodeGoKey(cfg) {
+  const { apiKey, model } = resolveOpenCodeGoConfig(cfg);
+  if (!apiKey) throw new Error('OpenCode Go API key not configured. Go to AI Sources → OpenCode Go and enter your key.');
+  return { apiKey, model };
+}
+
+/**
+ * Providers without an audio endpoint (Anthropic, OpenCode Go) get a transcript first:
+ * OpenAI Whisper when a key exists, otherwise Gemini.
+ */
+async function _transcribeAudio(cfg, payload, providerName) {
+  const openaiCfg = resolveOpenAIConfig(cfg);
+  if (openaiCfg.apiKey) return transcribeWithWhisper(payload, openaiCfg.apiKey);
+
+  const geminiCfg = resolveGeminiConfig(cfg);
+  if (!geminiCfg.apiKey) {
+    throw new Error(
+      `Para usar gravação de áudio com ${providerName}, configure uma chave OpenAI (Whisper) ou Gemini para transcrição.`
+    );
+  }
+  const geminiRes = await sendToGemini(
+    { kind: 'audio', payload },
+    { endpoint: geminiCfg.endpoint, apiKey: geminiCfg.apiKey },
+    { prompt: 'Transcreva este áudio exatamente como falado. Retorne apenas o texto transcrito, sem análise ou comentários adicionais.' },
+  );
+  return geminiRes?.json?.candidates?.[0]?.content?.parts?.[0]?.text || geminiRes?.body || '';
+}
+
 // ── Handlers ─────────────────────────────────────────────────────
 
 function registerAiHandlers() {
@@ -55,33 +84,20 @@ function registerAiHandlers() {
           { apiKey, model },
           { prompt: cfg.sourceAIPrompt || null },
         );
+      } else if (provider === 'opencodego') {
+        const { apiKey, model } = _requireOpenCodeGoKey(cfg);
+        const userPrompt = cfg.sourceAIPrompt || 'Provide concise suggested answers and key points.';
+        const transcript = await _transcribeAudio(cfg, payload, 'OpenCode Go');
+        result = await sendToOpenCodeGo(
+          { kind: 'text', payload: { text: `${userPrompt}\n\nTranscrição do áudio:\n"${transcript}"` } },
+          { apiKey, model },
+        );
       } else if (provider === 'anthropic') {
         const { apiKey, model } = _requireAnthropicKey(cfg);
         const userPrompt = cfg.sourceAIPrompt || 'Provide concise suggested answers and key points.';
 
         // Anthropic does not support audio — transcribe first, then send text.
-        let transcript;
-        const openaiCfg = resolveOpenAIConfig(cfg);
-        if (openaiCfg.apiKey) {
-          // Prefer Whisper (OpenAI) for clean transcription
-          transcript = await transcribeWithWhisper(payload, openaiCfg.apiKey);
-        } else {
-          // Fallback: use Gemini to transcribe the audio
-          const geminiCfg = resolveGeminiConfig(cfg);
-          if (!geminiCfg.apiKey) {
-            throw new Error(
-              'Para usar gravação de áudio com Claude, configure uma chave OpenAI (Whisper) ou Gemini para transcrição.'
-            );
-          }
-          const geminiRes = await sendToGemini(
-            { kind: 'audio', payload },
-            { endpoint: geminiCfg.endpoint, apiKey: geminiCfg.apiKey },
-            { prompt: 'Transcreva este áudio exatamente como falado. Retorne apenas o texto transcrito, sem análise ou comentários adicionais.' },
-          );
-          transcript = geminiRes?.json?.candidates?.[0]?.content?.parts?.[0]?.text
-            || geminiRes?.body
-            || '';
-        }
+        const transcript = await _transcribeAudio(cfg, payload, 'Claude');
 
         result = await sendToAnthropic(
           { kind: 'text', payload: { text: `${userPrompt}\n\nTranscrição do áudio:\n"${transcript}"` } },
@@ -111,6 +127,15 @@ function registerAiHandlers() {
       if (provider === 'openai') {
         const { apiKey, model } = _requireOpenAIKey(cfg);
         const result = await sendToOpenAI(
+          { kind: 'screenshot', payload },
+          { apiKey, model },
+          { prompt: cfg.sourceAIPrompt || null },
+        );
+        return ok({ result });
+      }
+      if (provider === 'opencodego') {
+        const { apiKey, model } = _requireOpenCodeGoKey(cfg);
+        const result = await sendToOpenCodeGo(
           { kind: 'screenshot', payload },
           { apiKey, model },
           { prompt: cfg.sourceAIPrompt || null },
@@ -148,6 +173,7 @@ function registerAiHandlers() {
         cfg.sourceAIModel  = payload.model; // Gemini  (resolveGeminiConfig  → cfg.sourceAIModel)
         cfg.openaiModel    = payload.model; // OpenAI  (resolveOpenAIConfig   → cfg.openaiModel)
         cfg.anthropicModel = payload.model; // Anthropic (resolveAnthropicConfig → cfg.anthropicModel)
+        cfg.opencodegoModel = payload.model; // OpenCode Go (resolveOpenCodeGoConfig → cfg.opencodegoModel)
       }
       const prompt       = payload.prompt || cfg.sourceAIPrompt || '';
       const combinedText = prompt ? `${prompt}\n\n${payload.text || ''}` : (payload.text || '');
@@ -156,6 +182,13 @@ function registerAiHandlers() {
       if (provider === 'openai') {
         const { apiKey, model } = _requireOpenAIKey(cfg);
         result = await sendToOpenAI(
+          { kind: 'text', payload: { text: combinedText } },
+          { apiKey, model },
+          {},
+        );
+      } else if (provider === 'opencodego') {
+        const { apiKey, model } = _requireOpenCodeGoKey(cfg);
+        result = await sendToOpenCodeGo(
           { kind: 'text', payload: { text: combinedText } },
           { apiKey, model },
           {},

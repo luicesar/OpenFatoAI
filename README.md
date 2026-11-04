@@ -13,7 +13,7 @@ Your API keys stay on your machine, encrypted with the operating system's keycha
 - **Quick actions (Home):** record audio, capture the full screen or a selected region with OCR, send to the AI, save the session.
 - **Transcriptions:** real-time, 100% local Whisper transcription, with short, detailed and agenda-based AI summaries.
 - **Meetings:** paginated history with full-text search, editing and deletion.
-- **Multi-provider AI:** Gemini, OpenAI and Anthropic (Claude) with your own API key; switch any time in Settings.
+- **Multi-provider AI:** Gemini, OpenAI, Anthropic (Claude) and [OpenCode Go](https://opencode.ai/) (Kimi, DeepSeek, GLM…) with your own API key; switch any time in Settings. OpenCode Go has no audio endpoint, so recordings are transcribed first with OpenAI Whisper or Gemini (needs one of those keys).
 - **Privacy-minded:** the window is hidden from screen captures and recordings, global shortcut `Ctrl+Shift+F9` toggles it.
 - **Light/dark theme** and **PT-BR / EN** interface.
 

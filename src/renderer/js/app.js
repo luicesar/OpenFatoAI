@@ -23,6 +23,11 @@ const anthropicKeyError       = document.getElementById('anthropicKeyError');
 const anthropicModelSelect    = document.getElementById('anthropicModelSelect');
 const openAnthropicKeyUrlBtn  = document.getElementById('openAnthropicKeyUrl');
 const openOpenAIKeyUrlBtn = document.getElementById('openOpenAIKeyUrl');
+const opencodegoActiveToggle = document.getElementById('opencodego-active');
+const opencodegoApiKeyInput  = document.getElementById('opencodego-api-key');
+const opencodegoKeyError     = document.getElementById('opencodegoKeyError');
+const opencodegoModelSelect  = document.getElementById('opencodegoModelSelect');
+const openOpenCodeGoKeyUrlBtn = document.getElementById('openOpenCodeGoKeyUrl');
 
 const sendAiBtn     = document.getElementById('sendAiBtn');
 const clearHomeBtn  = document.getElementById('clearHomeBtn');
@@ -550,6 +555,15 @@ if (modelSelect) {
   });
 }
 
+if (opencodegoModelSelect) {
+  opencodegoModelSelect.addEventListener('change', () => {
+    if (activeAiSource === 'opencodego' && modelSelectHome) modelSelectHome.value = opencodegoModelSelect.value;
+    if (activeAiSource === 'opencodego') {
+      window.electronAPI.saveConfig({ opencodegoModel: opencodegoModelSelect.value, sourceAIModel: opencodegoModelSelect.value });
+    }
+  });
+}
+
 if (openaiModelSelect) {
   openaiModelSelect.addEventListener('change', () => {
     if (activeAiSource === 'openai' && modelSelectHome) modelSelectHome.value = openaiModelSelect.value;
@@ -576,6 +590,7 @@ function showToastSaved() {
 const MASKED_KEY = '\u25cf'.repeat(39);
 const MASKED_OPENAI_KEY = '\u25cf'.repeat(32);
 const MASKED_ANTHROPIC_KEY = '\u25cf'.repeat(32);
+const MASKED_OPENCODEGO_KEY = '\u25cf'.repeat(32);
 
 async function checkApiKeyBanner() {
   const banner = document.getElementById('noApiKeyBanner');
@@ -583,6 +598,9 @@ async function checkApiKeyBanner() {
   let hasKey = false;
   if (activeAiSource === 'openai') {
     const res = await window.electronAPI.hasOpenAIKey();
+    hasKey = res && res.has;
+  } else if (activeAiSource === 'opencodego') {
+    const res = await window.electronAPI.hasOpenCodeGoKey();
     hasKey = res && res.has;
   } else if (activeAiSource === 'anthropic') {
     const res = await window.electronAPI.hasAnthropicKey();
@@ -631,6 +649,22 @@ async function checkApiKeyBanner() {
     }
   }
   {
+    const opencodegoRes = await window.electronAPI.hasOpenCodeGoKey();
+    const hasOpenCodeGoKey = opencodegoRes && opencodegoRes.has;
+    if (opencodegoActiveToggle) opencodegoActiveToggle.disabled = !hasOpenCodeGoKey;
+    if (opencodegoApiKeyInput) {
+      if (hasOpenCodeGoKey) {
+        opencodegoApiKeyInput.value = MASKED_OPENCODEGO_KEY;
+        opencodegoApiKeyInput.type = 'text';
+        opencodegoApiKeyInput.placeholder = '';
+      } else {
+        opencodegoApiKeyInput.value = '';
+        opencodegoApiKeyInput.type = 'password';
+        opencodegoApiKeyInput.placeholder = window.t('opencodego.key.placeholder');
+      }
+    }
+  }
+  {
     const anthropicRes = await window.electronAPI.hasAnthropicKey();
     const hasAnthropicKey = anthropicRes && anthropicRes.has;
     if (anthropicaiActiveToggle) anthropicaiActiveToggle.disabled = !hasAnthropicKey;
@@ -674,6 +708,10 @@ if (openApiKeyUrlBtn) {
   openApiKeyUrlBtn.addEventListener('click', () => window.electronAPI.openApiKeyUrl());
 }
 
+if (openOpenCodeGoKeyUrlBtn) {
+  openOpenCodeGoKeyUrlBtn.addEventListener('click', () => window.electronAPI.openOpenCodeGoKeyUrl());
+}
+
 if (openOpenAIKeyUrlBtn) {
   openOpenAIKeyUrlBtn.addEventListener('click', () => window.electronAPI.openOpenAIKeyUrl());
 }
@@ -698,6 +736,27 @@ if (anthropicaiApiKeyInput) {
         anthropicaiApiKeyInput.value = MASKED_ANTHROPIC_KEY;
         anthropicaiApiKeyInput.type = 'text';
         anthropicaiApiKeyInput.placeholder = '';
+      }
+    }
+  });
+}
+
+// OpenCode Go key input sentinel
+if (opencodegoApiKeyInput) {
+  opencodegoApiKeyInput.addEventListener('focus', () => {
+    if (opencodegoApiKeyInput.value === MASKED_OPENCODEGO_KEY) {
+      opencodegoApiKeyInput.value = '';
+      opencodegoApiKeyInput.type = 'password';
+      opencodegoApiKeyInput.placeholder = window.t('opencodego.key.placeholder');
+    }
+  });
+  opencodegoApiKeyInput.addEventListener('blur', async () => {
+    if (opencodegoApiKeyInput.value.trim() === '') {
+      const res = await window.electronAPI.hasOpenCodeGoKey();
+      if (res && res.has) {
+        opencodegoApiKeyInput.value = MASKED_OPENCODEGO_KEY;
+        opencodegoApiKeyInput.type = 'text';
+        opencodegoApiKeyInput.placeholder = '';
       }
     }
   });
@@ -742,6 +801,10 @@ const _MODEL_LABELS = {
   'gpt-4.1-mini':              'GPT-4.1 Mini',
   'o1':                        'o1 (Raciocínio)',
   'o3-mini':                   'o3-mini (Raciocínio Rápido)',
+  'kimi-k3':                   'Kimi K3 (Recomendado)',
+  'deepseek-v4.1-flash':       'DeepSeek V4.1 Flash (Rápido)',
+  'glm-5.3-flash':             'GLM-5.3 Flash (Equilibrado)',
+  'kimi-k3.1-pro':             'Kimi K3.1 Pro (Mais Preciso)',
   'gemini-3.6-flash':          'Gemini 3.6 Flash (Recomendado)',
   'gemini-3.5-flash-lite':     'Gemini 3.5 Flash Lite (Rápido)',
   'gemini-3.8-flash':          'Gemini 3.8 Flash (Mais Preciso)',
@@ -750,12 +813,14 @@ const _MODEL_LABELS = {
 const _AI_DEFAULTS = {
   anthropic: ['claude-opus-4-8', 'claude-opus-4-7', 'claude-sonnet-4-6', 'claude-haiku-4-5-20251001'],
   openai:    ['gpt-4o', 'gpt-4o-mini', 'o1', 'o3-mini', 'gpt-4.1', 'gpt-4.1-mini'],
+  opencodego: ['kimi-k3', 'deepseek-v4.1-flash', 'glm-5.3-flash', 'kimi-k3.1-pro'],
   gemini:    ['gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3.8-flash'],
 };
 
 let _aiModels = {
   anthropic: _AI_DEFAULTS.anthropic.map(v => ({ value: v, label: _MODEL_LABELS[v] || v })),
   openai:    _AI_DEFAULTS.openai.map(v => ({ value: v, label: _MODEL_LABELS[v] || v })),
+  opencodego: _AI_DEFAULTS.opencodego.map(v => ({ value: v, label: _MODEL_LABELS[v] || v })),
   gemini:    _AI_DEFAULTS.gemini.map(v => ({ value: v, label: _MODEL_LABELS[v] || v })),
 };
 
@@ -769,6 +834,7 @@ function _populateSettingsSelects() {
   _setWithFallback(modelSelect,          _aiModels.gemini);
   _setWithFallback(openaiModelSelect,    _aiModels.openai);
   _setWithFallback(anthropicModelSelect, _aiModels.anthropic);
+  _setWithFallback(opencodegoModelSelect, _aiModels.opencodego);
 
   // Novos selects — Transcrições e Tradução
   const models = _aiModels[activeAiSource] || [];
@@ -784,6 +850,7 @@ let activeAiSource = 'gemini';
 
 function aiSendingMsg() {
   if (activeAiSource === 'openai') return window.t('ai.sending.openai');
+  if (activeAiSource === 'opencodego') return window.t('ai.sending.opencodego');
   if (activeAiSource === 'anthropic') return window.t('ai.sending.anthropic');
   return window.t('ai.sending.gemini');
 }
@@ -808,6 +875,7 @@ function applyActiveAiSource(source, save = true) {
   if (geminiEnableToggle) geminiEnableToggle.checked = source === 'gemini';
   if (openaiActiveToggle) openaiActiveToggle.checked = source === 'openai';
   if (anthropicaiActiveToggle) anthropicaiActiveToggle.checked = source === 'anthropic';
+  if (opencodegoActiveToggle) opencodegoActiveToggle.checked = source === 'opencodego';
 
   // Flyout indicators
   const flyoutGeminiActive = document.getElementById('flyoutGeminiActive');
@@ -816,6 +884,8 @@ function applyActiveAiSource(source, save = true) {
   if (flyoutGeminiActive) flyoutGeminiActive.classList.toggle('hidden', source !== 'gemini');
   if (flyoutOpenaiActive) flyoutOpenaiActive.classList.toggle('hidden', source !== 'openai');
   if (flyoutAnthropicActive) flyoutAnthropicActive.classList.toggle('hidden', source !== 'anthropic');
+  const flyoutOpencodegoActive = document.getElementById('flyoutOpencodegoActive');
+  if (flyoutOpencodegoActive) flyoutOpencodegoActive.classList.toggle('hidden', source !== 'opencodego');
 
   // Home badge
   const badge = document.getElementById('activeAiBadge');
@@ -823,6 +893,9 @@ function applyActiveAiSource(source, save = true) {
     if (source === 'gemini') {
       badge.textContent = 'Gemini';
       badge.className = 'text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400';
+    } else if (source === 'opencodego') {
+      badge.textContent = 'OpenCode Go';
+      badge.className = 'text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-sky-100 dark:bg-sky-900/40 text-sky-600 dark:text-sky-400';
     } else if (source === 'anthropic') {
       badge.textContent = 'Claude';
       badge.className = 'text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400';
@@ -846,7 +919,7 @@ function applyActiveAiSource(source, save = true) {
   // Sync novos selects — Transcrições e Tradução
   {
     const models    = _aiModels[source] || [];
-    const badgeText = source ? source.charAt(0).toUpperCase() + source.slice(1) : '';
+    const badgeText = source === 'opencodego' ? 'OpenCode Go' : source ? source.charAt(0).toUpperCase() + source.slice(1) : '';
 
     if (modelSelectTranscriptions) {
       const curVal = modelSelectTranscriptions.value;
@@ -870,6 +943,12 @@ if (geminiEnableToggle) {
   geminiEnableToggle.addEventListener('change', () => {
     if (!geminiEnableToggle.checked) { geminiEnableToggle.checked = true; return; }
     applyActiveAiSource('gemini');
+  });
+}
+
+if (opencodegoActiveToggle) {
+  opencodegoActiveToggle.addEventListener('change', () => {
+    applyActiveAiSource(opencodegoActiveToggle.checked ? 'opencodego' : 'gemini');
   });
 }
 
@@ -948,6 +1027,59 @@ saveCfgBtn.addEventListener('click', async () => {
   showToastSaved();
   await checkApiKeyBanner();
 });
+
+// ── Save OpenCode Go settings ────────────────────────────────────
+const saveOpenCodeGoCfgBtn = document.getElementById('opencodego-save-config');
+
+if (saveOpenCodeGoCfgBtn) {
+  saveOpenCodeGoCfgBtn.addEventListener('click', async () => {
+    const keyValue      = opencodegoApiKeyInput ? opencodegoApiKeyInput.value.trim() : '';
+    const isKeySentinel = keyValue === MASKED_OPENCODEGO_KEY;
+
+    function showKeyError(msg) {
+      if (opencodegoApiKeyInput) {
+        opencodegoApiKeyInput.focus();
+        opencodegoApiKeyInput.classList.add('ring-2', 'ring-red-500', 'border-red-400');
+        setTimeout(() => opencodegoApiKeyInput.classList.remove('ring-2', 'ring-red-500', 'border-red-400'), 3000);
+      }
+      if (opencodegoKeyError) {
+        opencodegoKeyError.textContent = msg;
+        opencodegoKeyError.classList.remove('hidden');
+        setTimeout(() => opencodegoKeyError.classList.add('hidden'), 3000);
+      }
+    }
+
+    if (opencodegoApiKeyInput) {
+      opencodegoApiKeyInput.addEventListener('input', () => {
+        if (opencodegoKeyError) opencodegoKeyError.classList.add('hidden');
+      }, { once: true });
+    }
+
+    if (keyValue && !isKeySentinel && !/^\S{16,}$/.test(keyValue)) {
+      showKeyError(window.t('error.opencodegoKey.invalid'));
+      return;
+    }
+    const hasKeyRes = await window.electronAPI.hasOpenCodeGoKey();
+    if (!hasKeyRes.has && (!keyValue || isKeySentinel)) {
+      showKeyError(window.t('error.opencodegoKey.required'));
+      return;
+    }
+    if (keyValue && !isKeySentinel) {
+      const saveRes = await window.electronAPI.saveOpenCodeGoKey(keyValue);
+      if (!saveRes.ok) {
+        showKeyError(saveRes.error || window.t('error.opencodegoKey.invalid'));
+        return;
+      }
+      if (opencodegoApiKeyInput) opencodegoApiKeyInput.value = '';
+    }
+
+    const model = opencodegoModelSelect ? opencodegoModelSelect.value : 'kimi-k3';
+    await window.electronAPI.saveConfig({ opencodegoModel: model });
+    showToastSaved();
+    // checkApiKeyBanner will enable the toggle now that a key is saved
+    await checkApiKeyBanner();
+  });
+}
 
 // ── Save OpenAI settings ─────────────────────────────────────────
 const saveOpenAICfgBtn = document.getElementById('openai-save-config');
@@ -1086,6 +1218,10 @@ if (promptTemplateInput) {
         || (_aiModels.gemini[0]?.value || 'gemini-3.6-flash');
       modelSelect.value = savedGeminiModel;
       if (!modelSelect.value) modelSelect.selectedIndex = 0;
+    }
+    // Restore OpenCode Go page select
+    if (opencodegoModelSelect && cfg.opencodegoModel) {
+      if (_aiModels.opencodego.some(m => m.value === cfg.opencodegoModel)) opencodegoModelSelect.value = cfg.opencodegoModel;
     }
     // Restore OpenAI page select
     if (openaiModelSelect && cfg.openaiModel) {
@@ -1840,7 +1976,7 @@ if (transcriptSaveBtn) {
     const cfgRes = await window.electronAPI.loadConfig().catch(() => ({}));
     const cfg = cfgRes.config || cfgRes;
     const aiProvider = cfg.activeAiSource || 'gemini';
-    const aiModel    = cfg.sourceAIModel  || cfg.openaiModel || cfg.anthropicModel || '';
+    const aiModel    = cfg.sourceAIModel  || cfg.openaiModel || cfg.anthropicModel || cfg.opencodegoModel || '';
     const lang       = window.getCurrentLang ? window.getCurrentLang() : 'en';
 
     const data = {

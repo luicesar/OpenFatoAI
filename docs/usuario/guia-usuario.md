@@ -4,7 +4,7 @@
 
 O OpenFatoAI é um assistente discreto para desktop que fica na bandeja do sistema. Ele captura o que está acontecendo na sua tela ou microfone, envia para a IA e devolve respostas rápidas — tudo sem sair da sua janela atual. Também realiza **transcrição automática de fala** em tempo real, 100% local, sem enviar áudio para servidores externos.
 
-O app suporta três provedores de IA: **Gemini** (Google), **OpenAI** (GPT) e **Anthropic** (Claude).
+O app suporta quatro provedores de IA: **Gemini** (Google), **OpenAI** (GPT), **Anthropic** (Claude) e **OpenCode Go** (Kimi, DeepSeek, GLM…).
 
 **Casos de uso principais:**
 - Capturar texto de uma pergunta na tela e receber a resposta da IA
@@ -24,6 +24,7 @@ Antes de usar o app pela primeira vez:
    - Gemini: [Google AI Studio](https://aistudio.google.com/app/apikey) (gratuito)
    - OpenAI: [platform.openai.com](https://platform.openai.com/api-keys)
    - Anthropic: [console.anthropic.com](https://console.anthropic.com/)
+   - OpenCode Go: [opencode.ai](https://opencode.ai/) (plano Go)
 3. Ferramentas necessárias para captura de tela e OCR:
    - **Linux**:
      ```bash
@@ -226,6 +227,10 @@ Configure a chave de API e escolha o modelo:
 | `gpt-4o` | Mais capaz, equilibrado |
 | `gpt-4.1-mini` | Versão leve do GPT-4.1 |
 | `gpt-4.1` | Alta capacidade |
+
+### Provedor OpenCode Go
+
+Modelos: `kimi-k3` (recomendado), `deepseek-v4.1-flash` (mais rápido), `glm-5.3-flash` (equilibrado) e `kimi-k3.1-pro` (mais preciso). O OpenCode Go não aceita áudio: ao gravar, o app transcreve antes com o Whisper da OpenAI ou com o Gemini, então é preciso ter uma dessas chaves configurada.
 
 ### Provedor Anthropic (Claude)
 

@@ -25,11 +25,12 @@ async function getFetch() {
  * options: { prompt?, retries? }
  */
 async function sendToOpenAI(item, cfg, options = {}) {
-  if (!cfg?.apiKey) throw new Error('OpenAI API key not configured. Go to AI Sources → OpenAI and enter your key.');
+  const label = cfg?.label || 'OpenAI';
+  if (!cfg?.apiKey) throw new Error(`${label} API key not configured. Go to AI Sources → ${label} and enter your key.`);
 
   const fetchFn  = await getFetch();
   const model    = cfg.model || 'gpt-4o-mini';
-  const endpoint = `${OPENAI_BASE_URL}/chat/completions`;
+  const endpoint = `${cfg.baseUrl || OPENAI_BASE_URL}/chat/completions`;
   const maxTries = options.retries ?? DEFAULT_RETRIES;
 
   // Build the user message content
@@ -84,6 +85,7 @@ async function sendToOpenAI(item, cfg, options = {}) {
   const headers = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${cfg.apiKey}`,
+    ...(cfg.extraHeaders || {}),
   };
 
   let attempt   = 0;
@@ -110,7 +112,7 @@ async function sendToOpenAI(item, cfg, options = {}) {
         const errBody    = await res.text().catch(() => '');
         const retryAfter = res.headers.get('retry-after');
         const waitMs     = retryAfter ? parseFloat(retryAfter) * 1000 : DEFAULT_BACKOFF_MS * attempt;
-        lastError = new Error(`OpenAI 429 (rate limit). Retrying after ${waitMs}ms. ${errBody}`);
+        lastError = new Error(`${label} 429 (rate limit). Retrying after ${waitMs}ms. ${errBody}`);
         await sleep(waitMs);
         continue;
       }
@@ -119,14 +121,14 @@ async function sendToOpenAI(item, cfg, options = {}) {
       if (res.status >= 500) {
         const errBody = await res.text().catch(() => '');
         const waitMs  = DEFAULT_BACKOFF_MS * attempt;
-        lastError = new Error(`OpenAI ${res.status}: ${errBody}`);
+        lastError = new Error(`${label} ${res.status}: ${errBody}`);
         await sleep(waitMs);
         continue;
       }
 
       // 4xx non-retriable
       const errBody = await res.text().catch(() => '');
-      throw new Error(`OpenAI ${res.status}: ${errBody}`);
+      throw new Error(`${label} ${res.status}: ${errBody}`);
 
     } catch (err) {
       lastError = err;
@@ -135,7 +137,7 @@ async function sendToOpenAI(item, cfg, options = {}) {
     }
   }
 
-  throw lastError || new Error('Failed to send to OpenAI after retries');
+  throw lastError || new Error(`Failed to send to ${label} after retries`);
 }
 
 /**
