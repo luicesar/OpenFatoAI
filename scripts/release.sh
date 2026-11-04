@@ -33,8 +33,8 @@ done
 
 # ── 2. Trigger GitHub Actions builds ────────────────────────────────────
 echo "==> [2/8] Triggering GitHub Actions workflows..."
-gh workflow run build-windows.yml --repo "$REPO" --ref master
-gh workflow run build-macos.yml --repo "$REPO" --ref master
+gh workflow run build-windows.yml --repo "$REPO" --ref main
+gh workflow run build-macos.yml --repo "$REPO" --ref main
 
 # give GitHub a moment to register the new runs
 sleep 10

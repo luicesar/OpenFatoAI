@@ -22,6 +22,15 @@ files:
     to: src/shared
   - package.json
   - node_modules/
+  # Slim the package: the app runs Whisper on CPU only, so drop GPU providers,
+  # other platforms' ONNX binaries and sharp variants that never load here.
+  - "!node_modules/**/onnxruntime-node/bin/napi-v*/darwin/**"
+  - "!node_modules/**/onnxruntime-node/bin/napi-v*/win32/**"
+  - "!node_modules/**/libonnxruntime_providers_cuda.so"
+  - "!node_modules/**/libonnxruntime_providers_tensorrt.so"
+  - "!node_modules/**/.cache/**"
+  - "!node_modules/@img/*musl*/**"
+  - "!node_modules/@img/sharp-wasm32/**"
 
 # Copy icon to resources/ for runtime access via process.resourcesPath
 extraFiles:
