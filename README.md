@@ -53,7 +53,7 @@ Issues and pull requests are welcome — see [`CONTRIBUTING.md`](CONTRIBUTING.md
 
 ## Support the project
 
-If OpenFatoAI is useful to you, you can [buy me a coffee](https://buymeacoffee.com/YOUR_USERNAME).
+If OpenFatoAI is useful to you, you can [buy me a coffee](https://buymeacoffee.com/fatosystem7).
 
 ## License
 

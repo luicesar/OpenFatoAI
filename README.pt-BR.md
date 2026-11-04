@@ -194,7 +194,7 @@ Veja [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md) e a docu
 
 ## Apoie o projeto
 
-Se o OpenFatoAI é útil para você, considere [me pagar um café](https://buymeacoffee.com/YOUR_USERNAME). 
+Se o OpenFatoAI é útil para você, considere [me pagar um café](https://buymeacoffee.com/fatosystem7). 
 
 ---
 
