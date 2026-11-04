@@ -5,6 +5,10 @@ copyright: Copyright (c) 2026 OpenFatoAI Contributors
 directories:
   buildResources: resources
 
+# sherpa-onnx native packages are per platform/arch: fetch the target's, drop the others
+beforePack: scripts/builder/before-pack.js
+afterPack: scripts/builder/after-pack.js
+
 files:
   # Include essential app directories
   - from: src/main
