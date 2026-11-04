@@ -6,7 +6,7 @@
 
 <div align="center">
 
-<img src="assets/readme/screenshot.jpg" alt="OpenFatoAI home screen" width="100%">
+<img src="assets/readme/screenshot.png" alt="OpenFatoAI home screen" width="100%">
 
 <br>
 
